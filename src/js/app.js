@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 
 /********************* Menu Js **********************/
 
@@ -52,26 +54,25 @@ function setColor(theme) {
   toggleSwitcher(false);
 }
 
-const walletIcon = document.getElementById('connect-wallet');
+// const walletIcon = document.getElementById('connect-wallet');
+// walletIcon.addEventListener('click', async() => {
+//     if (window.ethereum) {
+//         try {
+//             await window.ethereum.enable();
 
-walletIcon.addEventListener('click', async() => {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.enable();
+//             const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+//             await provider.send("eth_requestAccounts", []);
+//             const signer = provider.getSigner();
 
-            await provider.send("eth_requestAccounts", []);
-            const signer = provider.getSigner();
+//             const address = await signer.getAddress();
+//             const chainId = await provider.getNetwork().then(network => network.chainId);
 
-            const address = await signer.getAddress();
-            const chainId = await provider.getNetwork().then(network => network.chainId);
-
-            console.log(`Connected to wallet with address ${address} on chain ${chainId}`);
-        } catch (err) {
-            console.error(err);
-        }
-    } else {
-        window.open("https://metamask.io/download/", "_blank");
-    }
-});
+//             console.log(`Connected to wallet with address ${address} on chain ${chainId}`);
+//         } catch (err) {
+//             console.error(err);
+//         }
+//     } else {
+//         window.open("https://metamask.io/download/", "_blank");
+//     }
+// });

@@ -1,27 +1,24 @@
-import {app, db } from "./firebase.js";
-import {doc, getFirestore, setDoc } from "firebase/firestore";
+import { db } from "./firebase.js";
+import { addDoc, collection } from "firebase/firestore";
 
 
 
-document.getElementById('contactForm').addEventListener('click',
-("submit", submitForm));
-
-function submitForm(e) {
-    e.preventDefault();
+const form = document.getElementById("contactForm");
+form.addEventListener("submit", submitForm);
+async function submitForm(event) {
+    event.preventDefault();
         
-    let username = getElementValById("username");
-    let email = getElementValById("email");
-    let bio = getElementValById("bio");
+    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
+    let bio = document.getElementById("bio").value;
 
-    console.log(`${username}, ${email}, ${bio}`);
+    console.log(username, email, bio);
+
+    await addDoc(collection(db, "Users"), {
+        username: username,
+        email: email,
+        Bio: bio
+    });
 }
 
-const getElementValById = (id) => {
-    return document.getElementById('id').value;
-}
-
-//await setDoc(doc(db, "Users"), {
-//    username: username,
-//    email: email,
-//    Bio: bio
-//});
+export default submitForm;
