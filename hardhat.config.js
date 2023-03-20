@@ -19,12 +19,12 @@ module.exports = {
       chainId: 1337
     },
     goerli: {
-      url: process.env.REACT_APP_ALCHEMY_API_URL,
-      accounts: [ process.env.REACT_APP_PRIVATE_KEY ]
+      url: process.env.APP_ALCHEMY_API_URL,
+      accounts: [process.env.APP_PRIVATE_KEY]
     }
   },
   solidity: {
-    version: "0.8.4",
+    version: "0.8.19",
     settings: {
       optimizer: {
         enabled: true,

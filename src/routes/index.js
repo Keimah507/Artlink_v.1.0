@@ -39,7 +39,11 @@ router.get('/register', (req, res) => {
 
 router.get('/login', (req, res) => {
   res.sendFile(__dirname + '/src/login.html');
-})
+});
+
+router.get('/collection', (req, res) => {
+  res.sendFile(__dirname + "/src/collection.html");
+});
 
 router.get('/getstatus', (req, res) => {
   AppController.getStatus(req, res);
