@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Artlink - NFT Marketplace Template</title>
+    <title>Artlink - NFT Marketplace</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" " />
     <meta name="keywords" content="" />
@@ -194,7 +194,7 @@
                             <li class="breadcrumb-item">
                                 <a href="index.html" class="text-muted">Home</a>
                             </li>
-                            <li class="breadcrumb-item active text-primary" aria-current="page">Items Details</li>
+                            <li class="breadcrumb-item active text-primary" aria-current="page">Create your NFT</li>
                         </ol>
                     </nav>
                 </div>
@@ -204,7 +204,7 @@
                 <div class="col-lg-8">
                     <div class="inner-heading text-center">
                         <div class="mt-4">
-                            <h1 class="fw-bold">Item Details</h1>
+                            <h1 class="fw-bold">Create your NFTs</h1>
                             <P class="text-muted">>A New Place To Collect And Connect NFT Across The World. It’s
                                 come with a creative design, <br> home page options, different explore and digital asset
                                 pages and items.</P>
@@ -235,7 +235,7 @@
                                     <i class="mdi mdi-heart text-danger f-18 me-2 align-middle"></i>2.35K
                                 </span></a>
 
-                            <div class="icon d-flex ms-auto">
+                            <!-- <div class="icon d-flex ms-auto">
                                 <div class="like">
                                     <a href=""><i class="mdi mdi-heart"></i></a>
                                 </div>
@@ -252,15 +252,53 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="selected-menu mt-3">
+                        </div> -->
+                        <!-- <div class="selected-menu mt-3">
                             <select class="form-select" aria-label="Default select example">
                                 <option selected>Set up Your Wallet</option>
                                 <option value="1">Create Your Collection</option>
                                 <option value="2">List them for sale</option>
                                 <option value="3">least once in your lifetime</option>
                             </select>
+                        </div> -->
+
+                        
+                        <div class="mt-4">
+                            <div class="Name">
+                                <label for="validationDefault03" class="form-label fw-semibold">Name
+                                    :</label>
+                                <input type="text" class="form-control" name="name"
+                                    placeholder="John Doe" required>
+                            </div>
                         </div>
+
+                        <div class="mt-4">
+                            <div class="Name">
+                                <div class="d-flex">
+                                    <label for="validationDefault002" class="form-label fw-semibold"> Description
+                                        :</label>
+                                    <p class="mb-0 f-14 text-muted ms-auto">
+                                    </p>
+                                </div>
+                                <input type="text" class="form-control" name="url"
+                                    placeholder="" required>
+                            </div>
+                        </div>
+
+
+                        <div class="mt-4">
+                            <div class="Name">
+                                <div class="d-flex">
+                                    <label for="validationdefault007" class="form-label fw-semibold"> Image
+                                        :</label>
+                                </div>
+                                <input type="file" class="form-control" name="image" required>
+                            </div>
+                        </div>
+
+
+                        <button type="button" onclick="createMetadata()">Create Metadata</button>
+                    </div>
 
                         <div class="tab-box my-4">
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -366,9 +404,9 @@
                                 <div class="countdown" id="countdown">
                                     <ul class="d-flex ps-0">
                                         <!-- <li class="d-flex"><span id="days"></span><span class="align-middle">:</span></li> -->
-                                        <li class="d-flex"><span id="hours"></span><span class="align-middle"> : </span>
+                                        <li class="d-flex"><span id="hours"></span><span class="align-middle">: </span>
                                         </li>
-                                        <li class="d-flex"><span id="minutes"></span><span class="align-middle"> :
+                                        <li class="d-flex"><span id="minutes"></span><span class="align-middle">:
                                             </span></li>
                                         <li class="d-flex"><span id="seconds"></span></li>
                                     </ul>

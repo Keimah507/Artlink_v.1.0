@@ -39,3 +39,5 @@ async function displayCollection() {
 }
 
 displayCollection();
+
+module.exports = displayCollection;
