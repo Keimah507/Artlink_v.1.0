@@ -1,8 +1,9 @@
-import initializeFirestore from "../js/firebase.js";
+import { getFirestore } from "firebase/firestore";
+import application from "../js/firebase.js";
 
 export default class AppController {
     static getStatus(req, res) {
-        const dbStatus = new initializeFirestore();
+        const dbStatus = getFirestore(application);
         if (dbStatus) {
         res.status(200).json({
             firestore: dbStatus,

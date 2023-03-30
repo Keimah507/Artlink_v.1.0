@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 
 
 /********************* Menu Js **********************/
@@ -53,6 +53,8 @@ function setColor(theme) {
   document.getElementById("color-opt").href = "./css/colors/" + theme + ".css";
   toggleSwitcher(false);
 }
+
+//TODO: Move this to /controllers/WalletController.js
 
 // const walletIcon = document.getElementById('connect-wallet');
 // walletIcon.addEventListener('click', async() => {

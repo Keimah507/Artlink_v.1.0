@@ -42,10 +42,10 @@
         <div class="container position-relative">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
-                    <form class="mt-2 inner-heading">                           
+                    <form class="mt-2 inner-heading" action="/login" method="post">                           
                         <h1 class="fw-bold">Welcome 🖐 To Artlink</h1>
 
-                        <p class="text-muted">Don't have an account yet? <a href="register.html"
+                        <p class="text-muted">Don't have an account yet? <a href="/register"
                                 class="text-blue">Register</a> </p>
 
                         <div class="info-box">
@@ -54,7 +54,7 @@
                                     <div class="email  mt-4">
                                         <label for="validationDefault03" class="form-label fw-semibold"> Email Address
                                             :</label>
-                                        <input type="email" class="form-control" id="validationDefault03"
+                                        <input type="email" name="email" class="form-control" id="validationDefault03"
                                             placeholder="Enter Your Email" required>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <div class="password  mt-4">
                                         <label for="validationDefault01" class="form-label fw-semibold">Password
                                             :</label>
-                                        <input type="password" class="form-control" id="validationDefault01"
+                                        <input type="password" name="password" class="form-control" id="validationDefault01"
                                          value="" required>
                                     </div>
                                 </div>
