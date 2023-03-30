@@ -25,5 +25,12 @@ Browse through the NFTs available on Artlink or mint your own.
 Purchase the NFTs you like or put your own up for sale.
 Track your NFT collection and view other users' collections.
 
+## How to run the web app
+1. Clone the repository
+2. Navigate to the project's directory
+3. On your terminal, run ```npm install```
+4. Run ```npm run dev``` to start the server
+5. Access the NFT Marketplace at http://localhost:5000 in your web browser.
+
 ## Conclusion
 Artlink is a user-friendly and secure NFT marketplace that enables users to create, buy, and sell unique digital assets. The platform's decentralized nature ensures that all transactions are transparent and secure, providing users with a trustworthy way to exchange NFTs.
