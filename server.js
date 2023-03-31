@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
-import routes from './src/routes';
+import routes from './backend/routes';
 const app = express();
 const __dirname = path.resolve()
 

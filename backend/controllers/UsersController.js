@@ -1,7 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
-import { collection, getDocs, setDoc, where } from "firebase/firestore";
+import { collection, getDocs, setDoc, where, addDoc, doc } from "firebase/firestore";
 import sha1 from "sha1";
-import { dbClient } from "../js/firebase";
+import dbClient from "../js/firebase";
 const auth = getAuth();
 
 export default class UsersController {
@@ -12,7 +12,6 @@ export default class UsersController {
          if (!username || !email || !password) {
             return res.status(401).json({error: "Missing required fields"})
          }
-
          // TODO: connect to Firestore and to check if data above exists in db
 
          // const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
@@ -31,18 +30,10 @@ export default class UsersController {
       };
       // TODO: Add data to firestore
       try {
-      const docRef = await addDoc(collection(dbClient, 'users'), user);
+      const docRef = await setDoc(doc(dbClient, 'users', email), user);
       console.log(`User registered with Id ${docRef.email}`);
-      // createUserWithEmailAndPassword(auth, user.username, user.email, user.password, user.Bio)
-      // .then((userCredential) => {
-      //    const user = userCredential.user;
-      // })
-      //.catch((error){
-      //  console.error(error);  
-      // })
-      res.redirect('/marketplace');
+      window.location.href('/marketplace');
 
-      // return res.status(200).json({user})
    } catch(err) {
       return res.status(500).json({error: err})
    }
@@ -54,12 +45,12 @@ export default class UsersController {
    
    // TODO: connect to Firestore and to check if data above exists in db
 
-   // const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
-   // const queryExistsSnapshot = await getDocs(userExistsQuery);
-   // if (queryExistsSnapshot.size < 0){
-   //    alert("user not found");
-   //    return;
-   // }
+   const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
+   const queryExistsSnapshot = await getDocs(userExistsQuery);
+   if (queryExistsSnapshot.size < 0){
+      alert("user not found");
+      return;
+   }
 
    
  }
