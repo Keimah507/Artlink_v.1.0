@@ -1,8 +1,12 @@
 import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
-import { collection, getDocs, setDoc, where, addDoc, doc } from "firebase/firestore";
-import sha1 from "sha1";
-import dbClient from "../js/firebase";
+import { query, collection, getDocs, setDoc, where, addDoc, doc } from "firebase/firestore";
+import bcrypt, { compare } from "bcrypt";
+import AuthController from "./AuthController.js";
+import dbClient from "../js/firebase.js";
+const jwt = require("jsonwebtoken");
 const auth = getAuth();
+
+require("dotenv").config();
 
 export default class UsersController {
 
@@ -17,11 +21,11 @@ export default class UsersController {
          // const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
          // const queryExistsSnapshot = await getDocs(userExistsQuery);
          // if (queryExistsSnapshot.size > 0){
-         //    alert("user already exists");
+         //    res.status(400).json({error: "user already exists"});
          //    return;
          // }
-         const hashedPw = sha1(password)
-         // TODO: switch to more secure hashing protocol
+         const saltRounds = 10
+         const hashedPw = await bcrypt.hash(password, saltRounds);
          const user = {
             username: username,
             email: email,
@@ -31,28 +35,48 @@ export default class UsersController {
       // TODO: Add data to firestore
       try {
       const docRef = await setDoc(doc(dbClient, 'users', email), user);
-      console.log(`User registered with Id ${docRef.email}`);
-      window.location.href('/marketplace');
+      // res.redirect('/marketplace');
 
    } catch(err) {
-      return res.status(500).json({error: err})
+      return res.status(500).json({error: err});
    }
+   const token = jwt.sign(
+      { email: user.email }, process.env.JWT_SECRET_KEY,
+      {expiresIn: "2h"}
+      );
+
+      res.status(200).json({username: user.username ,email: user.email, jwt_token: token});
 }
+
 
    //TODO: add getUser method(With auth)
    static async getUser(req, res) {
-   const { username, password } = req.body;
+   const { email, password } = req.body;
    
    // TODO: connect to Firestore and to check if data above exists in db
 
    const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
    const queryExistsSnapshot = await getDocs(userExistsQuery);
    if (queryExistsSnapshot.size < 0){
-      alert("user not found");
+      res.status(401).json({error: "user not found"});
       return;
    }
 
+   const userData = queryExistsSnapshot.docs[0].data();
+   const isMatch = await bcrypt.compare(password, userData.password);
+
+   if(!isMatch){
+      return res.status(403).json({error: "Password incorrect"});
+   }
+
+   // res.redirect('/profile');
    
+   const token = jwt.sign(
+    {email: email}, process.env.JWT_SECRET_KEY,
+    { expiresIn: "2h"}
+   );
+
+   res.status(200).json({jwt_token: token});
  }
 }
 

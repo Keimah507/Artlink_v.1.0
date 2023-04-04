@@ -1,43 +1,39 @@
-const { uuidv4 } = require("@firebase/util");
+const admin = require("firebase-admin");
+const { getAuth } = require("firebase/auth");
 const { query, collection, where, getDocs } = require("firebase/firestore");
-const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
-const jwt = require("jsonwebtoken");
+const { jwt } = require("jsonwebtoken");
+const { v4:uuidv4 } = require("uuid");
 const dbClient = require("../js/firebase");
+const ServiceAccount = require('/home/devnick/Downloads/nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
 const auth = getAuth();
 
+admin.initializeApp({
+    credential: admin.credential.cert(ServiceAccount)
+});
+
+
 class AuthController {
-    static secretkey = uuidv4;
 
-    static async getConnect(res, req) {
-        const { email, password } = req.body;
+    static async verifyToken(res, req, next) {
+        // const {email, password } = req.body
+            const authHeader = req.headers.Authorization;
+            if (!authHeader) {
+                res.set('WWW-Authenticate', 'Basic realm="User Visible Realm", charset="UTF-8"');
+                res.status(401).json({Error: "Unauthorized"});
+                return;
+            }
+            const token = authHeader.split(' ')[1];
+            if (!token) {
+                res.status(401).json({error: "Unauthorized"});
+            }
 
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user
-        })
-        .catch((error) => {
-            console.error(error);
-        })
-
-        // TODO: connect to Firestore and to check if data above exists in db
-
-        // const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
-        // const queryExistsSnapshot = await getDocs(userExistsQuery);
-        // if (queryExistsSnapshot.size < 0){
-        //    alert("user not found");
-        //    return;
-        // }
-
-    //     try {
-    //         const passwordMatchQuery = query(collection(dbClient, 'users'), where('password', '==', password));
-    //         const queryMatchSnapshot = await getDocs(passwordMatchQuery);
-    //         if (queryMatchSnapshot.size < 0){
-    //             alert("Passwords don't match");
-    //             return;
-    //         }
-    //     } catch (err){
-    //         return res.status(500).json({Error: "Internal server error" });
-    //     }
+            try {
+                const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+                req.user = decodedToken;
+                next();
+            } catch(err) {
+                return res.status(500).json({error: "Internal server error"});
+            }
     }
 }
 

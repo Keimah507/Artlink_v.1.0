@@ -100,7 +100,7 @@ router.get('/submit-request', (req, res) => {
   res.sendFile(__dirname + '/src/submit-request.html');
 });
 
-router.get('/collection', (req, res) => {
+router.get('/collection', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + "/src/collection.html");
 });
 
@@ -113,7 +113,11 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  AuthController.getConnect(req, res);
+  UsersController.getUser(req, res);
+})
+
+router.get('/connect', (req, res) => {
+  AuthController.verifyToken(req, res);
 })
 
 module.exports = router;
