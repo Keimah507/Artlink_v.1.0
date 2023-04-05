@@ -18,12 +18,13 @@ export default class UsersController {
          }
          // TODO: connect to Firestore and to check if data above exists in db
 
-         // const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
-         // const queryExistsSnapshot = await getDocs(userExistsQuery);
-         // if (queryExistsSnapshot.size > 0){
-         //    res.status(400).json({error: "user already exists"});
-         //    return;
-         // }
+         const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
+         const queryExistsSnapshot = await getDocs(userExistsQuery);
+         if (queryExistsSnapshot.size > 0){
+            res.status(400).json({error: "user already exists"});
+            return;
+         }
+
          const saltRounds = 10
          const hashedPw = await bcrypt.hash(password, saltRounds);
          const user = {
@@ -34,8 +35,7 @@ export default class UsersController {
       };
       // TODO: Add data to firestore
       try {
-      const docRef = await setDoc(doc(dbClient, 'users', email), user);
-      // res.redirect('/marketplace');
+      const docRef = await setDoc(doc(dbClient, 'users', email), user);   
 
    } catch(err) {
       return res.status(500).json({error: err});
@@ -45,12 +45,13 @@ export default class UsersController {
       {expiresIn: "2h"}
       );
 
-      res.status(200).json({username: user.username ,email: user.email, jwt_token: token});
+      res.set('Authorization', `Bearer ${token}`);
+      res.redirect('/marketplace');
 }
 
 
-   //TODO: add getUser method(With auth)
-   static async getUser(req, res) {
+   //TODO: add login method(With auth)
+   static async login(req, res) {
    const { email, password } = req.body;
    
    // TODO: connect to Firestore and to check if data above exists in db
@@ -69,15 +70,24 @@ export default class UsersController {
       return res.status(403).json({error: "Password incorrect"});
    }
 
-   // res.redirect('/profile');
    
    const token = jwt.sign(
     {email: email}, process.env.JWT_SECRET_KEY,
     { expiresIn: "2h"}
    );
 
-   res.status(200).json({jwt_token: token});
+   res.redirect('/profile');
+   res.set('Authorization', `Bearer ${token}`)
  }
+
+    //TODO: add getUser method(With auth)
+    static async getUser(req, res) {
+      const token = req.header('X-token');
+
+      // const usersRef = await dbClient.collection('users').
+
+
+    }
 }
 
 // module.exports = UsersController;

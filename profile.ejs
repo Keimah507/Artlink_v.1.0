@@ -229,13 +229,14 @@
                                 class="img-fluid avatar-xl border border-4 border-white rounded-circle">
                         </div>
                         <div class="profile-name ms-3">
-                            <h6 class="fw-bold"> @mickel_fenn..</h6>
+                            <h6 class="fw-bold">@<%= user.username %></h6>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="d-flex align-items-lg-center justify-content-end">
                         <div class="btn border-muted ">
+                            <!-- wallet address  -->
                             <p class="mb-0 text-muted">52f4B5d52Ghq..</p>
                         </div>
                         <div class="button ms-3">
@@ -273,8 +274,7 @@
                     <div class="about-detail">
                         <h6 class="fw-bold">About Me :</h6>
                         <div class="details-box">
-                            <p class="text-muted f-16">Myself mickel_fenn.. The first person singular reflexive pronoun.
-                                A speaker or writer uses art .</p>
+                            <p class="text-muted f-16"><%= user.bio %></p>
                             <div class="row d-flex mt-4">
                                 <div class="col-lg-6">
                                     <p class="fw-semibold f-16 mb-0 text-muted">Collection</p>
@@ -303,14 +303,6 @@
                                 </div>
                                 <div class="icon-content ms-2">
                                     <p class="mb-0"> messenger / @fenn_joy</p>
-                                </div>
-                            </div>
-                            <div class=" whatsapp d-flex align-items-center justify-content-start mt-3">
-                                <div class="avatar-xs bg-soft-success"><i
-                                        class="mdi mdi-whatsapp text-success f-20"></i>
-                                </div>
-                                <div class="icon-content ms-2">
-                                    <p class="mb-0"> whatsapp / @fenn_joy</p>
                                 </div>
                             </div>
                             <div class=" whatsapp d-flex align-items-center justify-content-start mt-3">

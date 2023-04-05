@@ -15,7 +15,6 @@ admin.initializeApp({
 class AuthController {
 
     static async verifyToken(res, req, next) {
-        // const {email, password } = req.body
             const authHeader = req.headers.Authorization;
             if (!authHeader) {
                 res.set('WWW-Authenticate', 'Basic realm="User Visible Realm", charset="UTF-8"');
@@ -24,7 +23,8 @@ class AuthController {
             }
             const token = authHeader.split(' ')[1];
             if (!token) {
-                res.status(401).json({error: "Unauthorized"});
+                res.redirect('/login');
+                // res.status(401).json({error: "Unauthorized"});
             }
 
             try {
@@ -32,7 +32,8 @@ class AuthController {
                 req.user = decodedToken;
                 next();
             } catch(err) {
-                return res.status(500).json({error: "Internal server error"});
+                return res.redirect('/404');
+                // return res.status(500).json({error: "Internal server error"});
             }
     }
 }
