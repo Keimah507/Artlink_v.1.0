@@ -84,6 +84,10 @@ router.get('/profile', (req, res) => {
   res.sendFile(__dirname + '/src/profile.html');
 });
 
+router.get('/profile/:id', (req, res) => {
+  UsersController.getUser(req, res);
+})
+
 router.get('/edit-profile', (req, res) => {
   res.sendFile(__dirname + '/src/edit-profile.html');
 });

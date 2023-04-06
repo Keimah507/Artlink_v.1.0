@@ -1,5 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
-import { query, collection, getDocs, setDoc, where, addDoc, doc } from "firebase/firestore";
+import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc } from "firebase/firestore";
 import bcrypt, { compare } from "bcrypt";
 import AuthController from "./AuthController.js";
 import dbClient from "../js/firebase.js";
@@ -83,8 +83,31 @@ export default class UsersController {
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
       const token = req.header('X-token');
+      const userid = req.query.email;
+      try {
+         const usersCollection = collection(dbClient, 'users');
+         const usersQuery = query(usersCollection, where("email", "==", userid));
+         const querySnapshot = await getDocs(usersQuery);
+         if (querySnapshot.size === 0){
+            return res.status(400).json({error: "User not found"});
+         }
+         const userData = querySnapshot.docs[0].data();
+         const { username, email:userEmail, Bio: bio} = userData;
+         return res.status(200).json({username, userEmail, bio});
+         // const docRef = await doc(dbClient, 'users', userid);
+         // const usersDoc = await getDoc(docRef);
+         // if(!usersDoc.exists()){
+         //    return res.status(400).json({error: "User not found"});
+         // }
+         // const userData = usersDoc.data();
+         // const {username, bio} = userData;
 
-      // const usersRef = await dbClient.collection('users').
+         // return res.status(200).json({Username: username, email: userid, Bio: bio});
+      // res.render('/profile', {user: userData});
+
+      } catch (err) {
+         res.status(500).json({error: `Internal server Error: ${err}`});
+      }
 
 
     }
