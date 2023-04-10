@@ -2,6 +2,7 @@ import express from "express";
 import UsersController from "../controllers/UsersController.js";
 import AppController from "../controllers/AppController.js";
 import AuthController from "../controllers/AuthController.js";
+import WalletController from "../controllers/WalletController.js"
 import path from "path";
 const app = express();
 
@@ -52,8 +53,12 @@ router.get('/privacy', (req, res) => {
   res.sendFile(__dirname + '/src/privacy.html');
 });
 
-router.get('/connect-wallet', (req, res) => {
+router.get('/wallet', (req, res) => {
   res.sendFile(__dirname + '/src/wallet.html');
+});
+
+router.get('/connect-wallet',(req, res) => {
+  WalletController.connectWallet(req, res);
 });
 
 router.get('/privacy', (req, res) => {
@@ -84,9 +89,9 @@ router.get('/profile', (req, res) => {
   res.sendFile(__dirname + '/src/profile.html');
 });
 
-router.get('/profile/:id', (req, res) => {
+router.get('/profile/:id', AuthController.verifyToken, (req, res) => {
   UsersController.getUser(req, res);
-})
+});
 
 router.get('/edit-profile', (req, res) => {
   res.sendFile(__dirname + '/src/edit-profile.html');

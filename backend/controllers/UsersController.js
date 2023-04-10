@@ -3,8 +3,8 @@ import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc } from "
 import bcrypt, { compare } from "bcrypt";
 import AuthController from "./AuthController.js";
 import dbClient from "../js/firebase.js";
+const {v4:uuidv4} = require('uuid');
 const jwt = require("jsonwebtoken");
-const auth = getAuth();
 
 require("dotenv").config();
 
@@ -45,7 +45,6 @@ export default class UsersController {
       {expiresIn: "2h"}
       );
 
-      res.set('Authorization', `Bearer ${token}`);
       res.redirect('/marketplace');
 }
 
@@ -67,7 +66,7 @@ export default class UsersController {
    const isMatch = await bcrypt.compare(password, userData.password);
 
    if(!isMatch){
-      return res.status(403).json({error: "Password incorrect"});
+      return res.status(400).json({error: "Password incorrect"});
    }
 
    
@@ -76,13 +75,14 @@ export default class UsersController {
     { expiresIn: "2h"}
    );
 
-   res.redirect('/profile');
-   res.set('Authorization', `Bearer ${token}`)
+   req.user = token;
+   // console.log(token);
+   res.status(200).json({token: token});
+   // res.redirect('/profile');
  }
 
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
-      const token = req.header('X-token');
       const userid = req.query.email;
       try {
          const usersCollection = collection(dbClient, 'users');
@@ -93,18 +93,8 @@ export default class UsersController {
          }
          const userData = querySnapshot.docs[0].data();
          const { username, email:userEmail, Bio: bio} = userData;
-         return res.status(200).json({username, userEmail, bio});
-         // const docRef = await doc(dbClient, 'users', userid);
-         // const usersDoc = await getDoc(docRef);
-         // if(!usersDoc.exists()){
-         //    return res.status(400).json({error: "User not found"});
-         // }
-         // const userData = usersDoc.data();
-         // const {username, bio} = userData;
 
-         // return res.status(200).json({Username: username, email: userid, Bio: bio});
-      // res.render('/profile', {user: userData});
-
+         res.status(200).json({username, userEmail, bio});
       } catch (err) {
          res.status(500).json({error: `Internal server Error: ${err}`});
       }
