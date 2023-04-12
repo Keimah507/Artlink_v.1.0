@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const { jwt } = require("jsonwebtoken");
+import jwt from 'jsonwebtoken';
 const dbClient = require("../js/firebase");
 const ServiceAccount = require('/home/devnick/Downloads/nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
 
@@ -10,24 +10,29 @@ admin.initializeApp({
 
 class AuthController {
 
-    static async verifyToken(res, req, next) {
-        const authHeader = req.headers.Authorization;
-        if (!authHeader){
-            return res.status(401).json({error: "Unauthorized"});
-        }
-        const token = req.headers.authorization.split[' '][1];
-        if (!token) {
-            // res.redirect('/login');
-             return res.status(401).json({error: "Unauthorized"});
-        }
+    static async verifyToken(req, res, next) {
+        //use req.header as opposed to req.headers(IDK why!)
+        //ok use both
+        const authHeader = req.headers['authorization'];
 
+        if (authHeader && authHeader == null){
+          res.status(401).json({error: "No Authorization Header"});
+        }
+        const token = authHeader.split(' ')[1];
+        // Have to catch undefined error
+        if (!token || token == null){
+            res.status(401).json({error: "Not Authorized"});
+        }
         try {
-            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY)
+            if (!decodedToken) {
+                req.status(401).json({error: "Not Authorized"});
+            }
             req.user = decodedToken;
             next();
         } catch(err) {
             // return res.redirect('/404');
-            return res.status(500).json({error: "Internal server error"});
+            return res.status(500).json({error: `Internal server error: ${err}`});
         }
     }
 }

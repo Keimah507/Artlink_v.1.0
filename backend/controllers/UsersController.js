@@ -11,6 +11,7 @@ require("dotenv").config();
 export default class UsersController {
 
     static async postNew(req, res) {
+
          const { username, email, password, bio } = req.body;
 
          if (!username || !email || !password) {
@@ -44,7 +45,7 @@ export default class UsersController {
       { email: user.email }, process.env.JWT_SECRET_KEY,
       {expiresIn: "2h"}
       );
-
+      // copy token and set it to headers(automatically)
       res.redirect('/marketplace');
 }
 
