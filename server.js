@@ -6,7 +6,7 @@ import routes from './backend/routes';
 const app = express();
 const __dirname = path.resolve()
 
-
+app.set('view engine', 'pug');
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());

@@ -97,7 +97,7 @@ router.get('/ranking', (req, res) => {
 router.get('/404', (req, res) => {
   res.sendFile(__dirname + '/src/404.html');
 });
-
+// work on this route
 router.get('/profile', (req, res) => {
   res.sendFile(__dirname + '/src/profile.html');
 });
@@ -118,14 +118,8 @@ router.get('/submit-request', (req, res) => {
   res.sendFile(__dirname + '/src/submit-request.html');
 });
 
-router.get('/collection', AuthController.verifyToken, async(req, res) => {
-  // res.sendFile(__dirname + "/src/collection.html");
-  const token = req.user;
-  const response = await axios.get('http://127.0.0.1:5000/collection', {
-    headers: { 'Authorization' : `bearer ${token}`
-  },
-})
-res.json(response.data);
+router.get('/collection', AuthController.verifyToken, (req, res) => {
+  res.sendFile(__dirname + "/src/collection.html");
 });
 
 router.get('/getstatus', (req, res) => {

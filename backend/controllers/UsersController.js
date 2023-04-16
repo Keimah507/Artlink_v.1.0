@@ -5,6 +5,7 @@ import AuthController from "./AuthController.js";
 import dbClient from "../js/firebase.js";
 const {v4:uuidv4} = require('uuid');
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 require("dotenv").config();
 
@@ -53,6 +54,7 @@ export default class UsersController {
    //TODO: add login method(With auth)
    static async login(req, res) {
    const { email, password } = req.body;
+   res.clearCookie();
    
    // TODO: connect to Firestore and to check if data above exists in db
 
@@ -70,20 +72,24 @@ export default class UsersController {
       return res.status(400).json({error: "Password incorrect"});
    }
 
-   
+   // assign JWT token to user
    const token = jwt.sign(
     {email: email}, process.env.JWT_SECRET_KEY,
     { expiresIn: "2h"}
    );
 
-   req.user = token;
+   res.cookie('token', token, {
+   httpOnly : true,
+   });
+
    // console.log(token);
-   res.status(200).json({token: token});
-   // res.redirect('/profile');
+   // res.status(200).json({token: token});
+   res.redirect(`/profile`);
  }
 
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
+
       const userid = req.query.email;
       try {
          const usersCollection = collection(dbClient, 'users');
