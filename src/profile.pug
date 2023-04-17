@@ -1,0 +1,565 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Artlink - NFT Marketplace
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content=' ')
+    meta(name='keywords', content='')
+    meta(content='Pichforest', name='author')
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    // Bootstrap css
+    link#bootstrap-style(rel='stylesheet', href='/css/bootstrap.min.css', type='text/css')
+    // Material Icon Css
+    link(rel='stylesheet', href='/css/materialdesignicons.min.css', type='text/css')
+    // Unicon Css
+    link(rel='stylesheet', href='https://unicons.iconscout.com/release/v4.0.0/css/line.css')
+    // Swiper Css
+    link(rel='stylesheet', href='/css/tiny-slider.css', type='text/css')
+    link(rel='stylesheet', href='/css/swiper.min.css', type='text/css')
+    // Custom Css
+    link(rel='stylesheet', href='/css/style.min.css', type='text/css')
+  body(data-bs-spy='scroll', data-bs-target='#navbar-navlist', data-bs-offset='71')
+    // light-dark mode button
+    a#mode.mode-btn.text-white.rounded-end(href='javascript: void(0);')
+      i.uil.uil-brightness.mode-dark.mx-auto
+      i.uil.uil-moon.bx-spin.mode-light
+    // Navbar Start
+    nav#navbar.navbar.navbar-expand-lg.fixed-top.sticky
+      .container-fluid.custom-container
+        a.navbar-brand.logo.f-30.text-dark.fw-bold(href='/')
+          img.logo-dark(src='/images/logo-dark.png', alt='', height='40')
+          img.logo-light(src='/images/logo-light.png', alt='', height='40')
+        div
+          button.navbar-toggler.me-3(type='button', data-bs-toggle='collapse', data-bs-target='#navbarCollapse', aria-controls='navbarCollapse', aria-label='Toggle navigation')
+            i.mdi.mdi-menu
+        #navbarCollapse.collapse.navbar-collapse
+          ul.navbar-nav.mx-auto.navbar-center
+            li.nav-item.dropdown.dropdown-hover
+              a#homedrop.nav-link.dropdown-toggle(href='/', role='button', data-bs-toggle='dropdown')
+                | Home
+              ul.dropdown-menu.dropdown-menu-center(aria-labelledby='homedrop')
+                li
+                  a.dropdown-item(href='/')
+                    i.mdi.mdi-home-outline.f-20.me-2.align-middle
+                    | Home Page 1
+                li
+                  a.dropdown-item(href='index-3.html')
+                    i.mdi.mdi-home-modern.f-20.me-2.align-middle
+                    | Home Page 2
+                li
+                  a.dropdown-item(href='index-4.html')
+                    i.mdi.mdi-home-variant.f-20.me-2.align-middle
+                    | Home Page 3
+            li.nav-item
+              a.nav-link(href='/marketplace') Marketplace
+            li.nav-item
+              a.nav-link(href='/collection') Collection
+            // end dropdown
+            li.nav-item.dropdown.dropdown-hover
+              a#pagedropdown.nav-link.dropdown-toggle(href='javascript:void(0)', role='button', data-bs-toggle='dropdown')
+                | Pages
+              .dropdown-menu.dropmenu-width.dropdown-menu-center
+                .row
+                  ul.col-lg-6.list-unstyled
+                    li
+                      a.dropdown-item(href='/activity')
+                        i.mdi.mdi-chart-line.f-20.me-2.align-middle
+                        | Activity
+                    li
+                      a.dropdown-item(href='/item-details')
+                        i.mdi.mdi-image-filter-frames.f-20.me-2.align-middle
+                        | Item Details
+                    li
+                      a.dropdown-item(href='/post-detail')
+                        i.mdi.mdi-image-filter-center-focus-weak.f-20.me-2.align-middle
+                        | Post Details
+                    li
+                      a.dropdown-item(href='/newsletter')
+                        i.mdi.mdi-email-open-outline.f-20.me-2.align-middle
+                        | Newsletter
+                    li
+                      a.dropdown-item(href='/creatore')
+                        i.mdi.mdi-comment-account-outline.f-20.me-2.align-middle
+                        | Creatore
+                    li
+                      a.dropdown-item(href='/login')
+                        i.mdi.mdi-account-outline.f-20.me-2.align-middle
+                        | Login
+                    li
+                      a.dropdown-item(href='/register')
+                        i.mdi.mdi-account-box-outline.f-20.me-2.align-middle
+                        | Register
+                    li
+                      a.dropdown-item(href='/privacy')
+                        i.mdi.mdi-lock-open-outline.f-20.me-2.align-middle
+                        | Privacy
+                  ul.col-lg-6.list-unstyled
+                    li
+                      a.dropdown-item(href='/wallet')
+                        i.mdi.mdi-wallet-travel.f-20.me-2.align-middle
+                        | Connect Wallet
+                    li
+                      a.dropdown-item(href='/faq')
+                        i.mdi.mdi-comment-question-outline.f-20.me-2.align-middle
+                        | Faq
+                    li
+                      a.dropdown-item(href='/submit-request')
+                        i.mdi.mdi-check-circle-outline.f-20.me-2.align-middle
+                        | submit Reqeust
+                    li
+                      a.dropdown-item(href='/chat')
+                        i.mdi.mdi-message-text-outline.f-20.me-2.align-middle
+                        | Chat
+                    li
+                      a.dropdown-item(href='/artical')
+                        i.mdi.mdi-comment-account-outline.f-20.me-2.align-middle
+                        | Artical
+                    li
+                      a.dropdown-item(href='/ranking')
+                        i.mdi.mdi-numeric-1-box-outline.f-20.me-2.align-middle
+                        | Ranking
+                    li
+                      a.dropdown-item(href='404.html')
+                        i.mdi.mdi-alert-outline.f-20.me-2.align-middle
+                        | 404
+            // end dropdown
+            li.nav-item.dropdown.dropdown-hover
+              a#homedrop.nav-link.dropdown-toggle(href='/', role='button', data-bs-toggle='dropdown')
+                | Profile
+              ul.dropdown-menu.dropdown-menu-center(aria-labelledby='homedrop')
+                li
+                  a.dropdown-item(href='/profile')
+                    i.mdi.mdi-account-box-outline.f-20.me-2.align-middle
+                    | Profile
+                li
+                  a.dropdown-item(href='/edit-profile')
+                    i.mdi.mdi-account-edit.f-20.me-2.align-middle
+                    | Edit profile
+            li.nav-item
+              a.nav-link(href='/blog') Blog
+            // end dropdown
+            li.nav-item
+              a.nav-link(href='/contact') Contact
+            // end dropdown
+          // end navbar-nav
+          a.btn.btn-primary(href='/wallet') Connect to Wallet
+      // end container
+    // Navbar End
+    // start section
+    section.profile.section.bg-light
+      // start container
+      .container
+        // start container
+        .row.mt-4
+          .col-lg-12
+            nav(aria-label='breadcrumb')
+              ol.breadcrumb.default.mb-0
+                li.breadcrumb-item
+                  a.text-muted(href='/') Home
+                li.breadcrumb-item.active.text-primary(aria-current='page') Profile
+        // end container
+        .row.align-items-center.justify-content-center
+          .col-lg-8
+            .inner-heading.text-center
+              .mt-4
+                h1.fw-bold #{username}
+            .heading-bottom-icon.d-flex.justify-content-center.text-center
+              i.mdi.mdi-image-filter-vintage
+              i.mdi.mdi-image-filter-vintage.mx-2
+              i.mdi.mdi-image-filter-vintage
+        // start row
+        .row.mt-5.align-items-center
+          .col-lg-6
+            .d-flex.align-items-center.justify-content-start
+              .avatar
+                img.img-fluid.avatar-xl.border.border-4.border-white.rounded-circle(src='/images/inner-image/user/img-7.jpg', alt='')
+              .profile-name.ms-3
+                h6.fw-bold  @#{username}
+          .col-lg-6
+            .d-flex.align-items-lg-center.justify-content-end
+              .btn.border-muted
+              if walletAddress != null
+              p.mb-0.text-muted #{walletAddress}
+              .button.ms-3
+                button.btn.btn-dark Follow
+              .d-flex.ms-3
+                .icon.d-flex.ms-auto
+                  .like
+                    a.text-primary(href='')
+                      i.mdi.mdi-heart
+                  .menu.ms-3
+                    .dropdown.rounded
+                      a#dropdownMenuButton1.text-primary(href='', data-bs-toggle='dropdown', aria-expanded='false')
+                        i.mdi.mdi-dots-vertical
+                      ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
+                        li
+                          a.dropdown-item(href='#') Action
+                        li
+                          a.dropdown-item(href='#') Another action
+                        li
+                          a.dropdown-item(href='#') Something else here
+        // end row
+        // start row
+        .row.mt-4
+          .col-lg-3
+            .about-detail
+              h6.fw-bold About Me :
+              .details-box
+                p.text-muted.f-16
+                  #{bio}
+                .row.d-flex.mt-4
+                  .col-lg-6
+                    p.fw-semibold.f-16.mb-0.text-muted Collections
+                    p.fw-semibold.f-18 201
+                  .col-lg-6
+                    p.fw-semibold.f-16.mb-0.text-muted Creations
+                    p.fw-semibold.f-18 419
+            |  
+            .Social-detail.mt-5
+              h6.fw-bold Follow Social Media :
+              .details-box
+                .facebook.d-flex.align-items-center.justify-content-start
+                  .avatar-xs.bg-soft-muted
+                    i.mdi.mdi-facebook.text-muted.f-20
+                  .icon-content.ms-2
+                    p.mb-0 Facebook / 
+                .message.d-flex.align-items-center.justify-content-start.mt-3
+                  .avatar-xs.bg-soft-blue
+                    i.mdi.mdi-message-text.text-blue.f-20
+                  .icon-content.ms-2
+                    p.mb-0  messenger / 
+                .whatsapp.d-flex.align-items-center.justify-content-start.mt-3
+                  .avatar-xs.bg-soft-success
+                    i.mdi.mdi-whatsapp.text-success.f-20
+                  .icon-content.ms-2
+                    p.mb-0  whatsapp / 
+                .whatsapp.d-flex.align-items-center.justify-content-start.mt-3
+                  .avatar-xs.bg-soft-danger
+                    i.mdi.mdi-youtube.text-danger.f-20
+                  .icon-content.ms-2
+                    p.mb-0  youtube / 
+          .col-lg-9.mt-5
+            ul#pills-tab.nav.nav-pills.mb-3(role='tablist')
+              li.nav-item(role='presentation')
+                button#pills-home-tab.nav-link.active(data-bs-toggle='pill', data-bs-target='#pills-home', type='button', role='tab', aria-controls='pills-home', aria-selected='true') Creation
+              li.nav-item(role='presentation')
+                button#pills-profile-tab.nav-link(data-bs-toggle='pill', data-bs-target='#pills-profile', type='button', role='tab', aria-controls='pills-profile', aria-selected='false') Collections
+            #pills-tabContent.tab-content
+              #pills-home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='pills-home-tab')
+                .row
+                  .col-lg-4.mt-4
+                    .tab-box.p-4.border-0
+                      .header.d-flex.align-items-center.justify-content-center
+                        .avatar-xs
+                          img.img-fluid.rounded-circle(src='/images/inner-image/user/img-1.jpg', alt='')
+                        h6.mb-0.ms-2.fw-semibold.text-muted.f-14 @Keven_Chrisi
+                      .card-image.mt-2.position-relative
+                        img.img-fluid(src='/images/inner-image/explore/img-2.png', alt='')
+                        .position-absolute.top-0.end-0.me-3.mt-3
+                          span.badge.rounded-pill.bg-white.text-dark
+                            i.mdi.mdi-heart.text-danger.align-middle.f-16
+                            |  1.03K
+                      .body-content.mt-3
+                        h6.fw-bold Dodo hide the seek
+                        .d-flex.align-items-center.justify-content-start.mt-3
+                          .slider-content-image.d-flex
+                            .avatar-xs
+                              img.img-fluid(src='/images/inner-image/user/img-1.jpg', alt='')
+                            .avatar-xs.top-child
+                              img.img-fluid(src='/images/inner-image/user/img-2.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-3.jpg', alt='')
+                          .ms-auto
+                            p.text-success.mb-0.fw-semibold 0.11100 ETH
+                        hr.my-3
+                        .blog-slider-footer
+                          h6.f-14
+                            i.mdi.mdi-crown.f-18.text-primary.me-2.align-middle
+                            | Highest Bid 
+                            span.text-muted.ms-2 0.01111.00 ETH
+                  .col-lg-4.mt-4
+                    .tab-box.p-4.border-0
+                      .header.d-flex.align-items-center.justify-content-center
+                        .avatar-xs
+                          img.img-fluid.rounded-circle(src='/images/inner-image/user/img-2.jpg', alt='')
+                        h6.mb-0.ms-2.fw-semibold.text-muted.f-14 @David_Alex
+                      .card-image.mt-2.position-relative
+                        img.img-fluid(src='/images/inner-image/explore/img-1.png', alt='')
+                        .position-absolute.top-0.end-0.me-3.mt-3
+                          span.badge.rounded-pill.bg-white.text-dark
+                            i.mdi.mdi-heart.text-danger.align-middle.f-16
+                            |  1.85K
+                      .body-content.mt-3
+                        h6.fw-bold Abstract Painting
+                        .d-flex.align-items-center.justify-content-start.mt-3
+                          .slider-content-image.d-flex
+                            .avatar-xs
+                              img.img-fluid(src='/images/inner-image/user/img-1.jpg', alt='')
+                            .avatar-xs.top-child
+                              img.img-fluid(src='/images/inner-image/user/img-2.jpg', alt='')
+                          .ms-auto
+                            p.text-success.mb-0.fw-semibold 0.11100 ETH
+                        hr.my-3
+                        .blog-slider-footer
+                          h6.f-14
+                            i.mdi.mdi-crown.f-18.text-primary.me-2.align-middle
+                            | Highest Bid 
+                            span.text-muted.ms-2 0.01111.00 ETH
+                  .col-lg-4.mt-4
+                    .tab-box.p-4.border-0
+                      .header.d-flex.align-items-center.justify-content-center
+                        .avatar-xs
+                          img.img-fluid.rounded-circle(src='/images/inner-image/user/img-4.jpg', alt='')
+                        h6.mb-0.ms-2.fw-semibold.text-muted.f-14 @Steva_Robart
+                      .card-image.mt-2.position-relative
+                        img.img-fluid(src='/images/inner-image/explore/img-3.png', alt='')
+                        .position-absolute.top-0.end-0.me-3.mt-3
+                          span.badge.rounded-pill.bg-white.text-dark
+                            i.mdi.mdi-heart.text-danger.align-middle.f-16
+                            |  0.86K
+                      .body-content.mt-3
+                        h6.fw-bold The Chirstoper art
+                        .d-flex.align-items-center.justify-content-start.mt-3
+                          .slider-content-image.d-flex
+                            .avatar-xs
+                              img.img-fluid(src='/images/inner-image/user/img-1.jpg', alt='')
+                            .avatar-xs.top-child
+                              img.img-fluid(src='/images/inner-image/user/img-2.jpg', alt='')
+                            .avatar-xs.top-child
+                              img.img-fluid(src='/images/inner-image/user/img-4.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-3.jpg', alt='')
+                          .ms-auto
+                            p.text-success.mb-0.fw-semibold 0.12525 ETH
+                        hr.my-3
+                        .blog-slider-footer
+                          h6.f-14
+                            i.mdi.mdi-crown.f-18.text-primary.me-2.align-middle
+                            | Highest Bid 
+                            span.text-muted.ms-2 0.01111.00 ETH
+                  .col-lg-4.mt-4
+                    .tab-box.p-4.border-0
+                      .header.d-flex.align-items-center.justify-content-center
+                        .avatar-xs
+                          img.img-fluid.rounded-circle(src='/images/inner-image/user/img-5.jpg', alt='')
+                        h6.mb-0.ms-2.fw-semibold.text-muted.f-14 @jimmy_dom
+                      .card-image.mt-2.position-relative
+                        img.img-fluid(src='/images/inner-image/explore/img-5.png', alt='')
+                        .position-absolute.top-0.end-0.me-3.mt-3
+                          span.badge.rounded-pill.bg-white.text-dark
+                            i.mdi.mdi-heart.text-danger.align-middle.f-16
+                            |  1.18K
+                      .body-content.mt-3
+                        h6.fw-bold The Boy with the firefly
+                        .d-flex.align-items-center.justify-content-start.mt-3
+                          .slider-content-image.d-flex
+                            .avatar-xs
+                              img.img-fluid(src='/images/inner-image/user/img-1.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-3.jpg', alt='')
+                          .ms-auto
+                            p.text-success.mb-0.fw-semibold 0.85858 ETH
+                        hr.my-3
+                        .blog-slider-footer
+                          h6.f-14
+                            i.mdi.mdi-crown.f-18.text-primary.me-2.align-middle
+                            | Highest Bid 
+                            span.text-muted.ms-2 0.085858 ETH
+                  .col-lg-4.mt-4
+                    .tab-box.p-4.border-0
+                      .header.d-flex.align-items-center.justify-content-center
+                        .avatar-xs
+                          img.img-fluid.rounded-circle(src='/images/inner-image/user/img-6.jpg', alt='')
+                        h6.mb-0.ms-2.fw-semibold.text-muted.f-14 @mickel_fenn
+                      .card-image.mt-2.position-relative
+                        img.img-fluid(src='/images/inner-image/explore/img-6.png', alt='')
+                        .position-absolute.top-0.end-0.me-3.mt-3
+                          span.badge.rounded-pill.bg-white.text-dark
+                            i.mdi.mdi-heart.text-danger.align-middle.f-16
+                            |  2.38K
+                      .body-content.mt-3
+                        h6.fw-bold The Chirstoper
+                        .d-flex.align-items-center.justify-content-start.mt-3
+                          .slider-content-image.d-flex
+                            .avatar-xs
+                              img.img-fluid(src='/images/inner-image/user/img-1.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-4.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-6.jpg', alt='')
+                          .ms-auto
+                            p.text-success.mb-0.fw-semibold 0.85858 ETH
+                        hr.my-3
+                        .blog-slider-footer
+                          h6.f-14
+                            i.mdi.mdi-crown.f-18.text-primary.me-2.align-middle
+                            | Highest Bid 
+                            span.text-muted.ms-2 0.085858 ETH
+                  .col-lg-4.mt-4
+                    .tab-box.p-4.border-0
+                      .header.d-flex.align-items-center.justify-content-start
+                        .avatar-xs
+                          img.img-fluid.rounded-circle(src='/images/inner-image/user/img-1.jpg', alt='')
+                        h6.mb-0.ms-2.fw-semibold.text-muted.f-14
+                          | @kristian_fel
+                      .card-image.mt-2.position-relative
+                        img.img-fluid(src='/images/inner-image/explore/img-7.png', alt='')
+                        .position-absolute.top-0.end-0.me-3.mt-3
+                          span.badge.rounded-pill.bg-white.text-dark
+                            i.mdi.mdi-heart.text-danger.align-middle.f-16
+                            |  0.93K
+                      .body-content.mt-3
+                        h6.fw-bold pop art Painting
+                        .d-flex.align-items-center.justify-content-start.mt-3
+                          .slider-content-image.d-flex
+                            .avatar-xs
+                              img.img-fluid(src='/images/inner-image/user/img-1.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-4.jpg', alt='')
+                            .avatar-xs.top-child.position-relative
+                              img.img-fluid(src='/images/inner-image/user/img-6.jpg', alt='')
+                          .ms-auto
+                            p.text-success.mb-0.fw-semibold 0.64685 ETH
+                        hr.my-3
+                        .blog-slider-footer
+                          h6.f-14
+                            i.mdi.mdi-crown.f-18.text-primary.me-2.align-middle
+                            | Highest Bid 
+                            span.text-muted.ms-2 0.52584 ETH
+                  .mt-5
+                    .col-lg-12
+                      .text-center
+                        button.btn.btn-white.text-dark.shadow.rounded-pill
+                          i.mdi.mdi-restart.f-18.align-middle
+                          |  View All Items
+              #pills-profile.tab-pane.blog.fade(role='tabpanel', aria-labelledby='pills-profile-tab')
+                .row.mt-5
+                  .col-lg-6
+                    .collection-items
+                      .blog-box
+                        .collection-image
+                          .blog-image
+                            .top-image.d-flex.justify-content-between
+                              img.img-fluid(src='/images/inner-image/blog/top1.png', alt='')
+                              img.img-fluid(src='/images/inner-image/blog/top2.png', alt='')
+                              img.img-fluid(src='/images/inner-image/blog/top3.png', alt='')
+                            .mt-3
+                              img.img-fluid.w-100(src='/images/inner-image/blog/main-1.png', alt='')
+                        .collection-content.mt-3
+                          .d-flex.align-items-center
+                            .collection-title
+                              a.fw-bold.h5(href='') Digital Art Gallery
+                            .collection-like-icon.ms-auto
+                              p.fw-semibold.mb-0
+                                a(href='')
+                                  i.mdi.mdi-heart
+                                |  2.05K
+                          .blog-profile.mt-3
+                            h6.f-14.text-muted
+                              | 4 items &middot; Created by
+                              a.text-muted(href='')
+                                img.img-fluid.rounded-circle.avatar-xs.mx-2(src='/images/inner-image/user/img-1.jpg', alt='')
+                                span @Dezy_resato...
+                  .col-lg-6
+                    .collection-items
+                      .blog-box
+                        .collection-image
+                          .blog-image
+                            .top-image.d-flex.justify-content-between
+                              img.img-fluid(src='/images/inner-image/blog/top4.png', alt='')
+                              img.img-fluid(src='/images/inner-image/blog/top5.png', alt='')
+                              img.img-fluid(src='/images/inner-image/blog/top6.png', alt='')
+                            .mt-3
+                              img.img-fluid.w-100(src='/images/inner-image/blog/main-2.png', alt='')
+                        .collection-content.mt-3
+                          .d-flex.align-items-center
+                            .collection-title
+                              a.fw-bold.h5(href='') Colorful Painting
+                            .collection-like-icon.ms-auto
+                              p.fw-semibold.mb-0
+                                a(href='')
+                                  i.mdi.mdi-heart
+                                |  1.27K
+                          .blog-profile.mt-3
+                            h6.f-14.text-muted
+                              | 6 items &middot; Created by
+                              a.text-muted(href='')
+                                img.img-fluid.rounded-circle.avatar-xs.mx-2(src='/images/inner-image/user/img-2.jpg', alt='')
+                                span @william_jamy... 
+        // end row
+      // end container
+    // start footer
+    section.footer
+      .container
+        .top-footer
+          .row
+            .col-lg-4
+              .footer-info.mt-4
+                // <img src="/images/inner-image/logo-dark.png" alt="" height="22">
+                a.logo.f-30.text-dark.fw-bold(href='index.html')
+                  img.logo-dark(src='/images/logo-dark.png', alt='', height='40')
+                  img.logo-light(src='/images/logo-light.png', alt='', height='40')
+                p.f-18.mt-2.text-muted
+                  | Business opportunities Are Like Buses. br There is Always Another One Coming...
+            .col-lg-5
+              .row
+                .col-lg-6
+                  .mt-4
+                    h5.f-18.fw-bold Policies
+                    ul.list-unstyled.footer-link.mt-3
+                      li
+                        a(href='') Security &amp; Privacy
+                      li
+                        a(href='') Marketplace
+                      li
+                        a(href='') Terms &amp; Conditions
+                      li
+                        a(href='') Collection
+                .col-lg-6
+                  .mt-4
+                    h5.f-18.fw-bold Company
+                    ul.list-unstyled.footer-link.mt-3
+                      li
+                        a(href='index.html') Home
+                      li
+                        a(href='activity.html') Pages
+                      li
+                        a(href='blog.html') Blog
+                      li
+                        a(href='contact.html') Contact
+            .col-lg-3
+              .mt-4.pl-0.pl-lg-4
+                h5.f-18.fw-bold Follow Us
+                ul.list-inline.social-icons-list.pt-3
+                  li.list-inline-item
+                    a(href='#')
+                      i.mdi.mdi-facebook
+                  li.list-inline-item
+                    a(href='#')
+                      i.mdi.mdi-twitter
+                  li.list-inline-item
+                    a(href='#')
+                      i.mdi.mdi-linkedin
+                  li.list-inline-item
+                    a(href='#')
+                      i.mdi.mdi-google-plus
+        hr
+        .row
+          .col-12
+            .text-center
+              p.my-4.text-muted
+                | &copy;
+                script.
+                  document.write(new Date().getFullYear())
+                |  Artlink.
+    // end footer
+    // Bootstrap Js
+    script(src='/js/bootstrap.bundle.min.js')
+    // Slider Js
+    script(src='/js/tiny-slider.js')
+    script(src='/js/swiper.min.js')
+    // counter
+    script(src='/js/counter.init.js')
+    // App Js
+    script(src='/js/app.js')

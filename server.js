@@ -7,6 +7,7 @@ const app = express();
 const __dirname = path.resolve()
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'src'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
