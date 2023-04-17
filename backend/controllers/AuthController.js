@@ -8,7 +8,9 @@ class AuthController {
         //ok use any, still dk why!
         const header = req.headers.cookie;
 
+        if( header && typeof header != null) {
         const token = header.split('=')[1];
+        }
         if (typeof token == undefined){
           res.status(401).json({error: "Not Authorized"});
         }
@@ -21,7 +23,7 @@ class AuthController {
             next();
         } catch(err) {
             res.clearCookie('token');
-            return res.redirect('/404');
+            return res.redirect('/login');
             // migrate to API
             // return res.status(500).json({error: `Internal server error: ${err}`});
         }

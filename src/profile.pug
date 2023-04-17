@@ -211,10 +211,12 @@ html(lang='en')
                 .row.d-flex.mt-4
                   .col-lg-6
                     p.fw-semibold.f-16.mb-0.text-muted Collections
-                    p.fw-semibold.f-18 201
+                    if collections != null
+                    p.fw-semibold.f-18 #{collections}
                   .col-lg-6
                     p.fw-semibold.f-16.mb-0.text-muted Creations
-                    p.fw-semibold.f-18 419
+                    if creations != null
+                    p.fw-semibold.f-18 #{creations}
             |  
             .Social-detail.mt-5
               h6.fw-bold Follow Social Media :
@@ -521,13 +523,13 @@ html(lang='en')
                     h5.f-18.fw-bold Company
                     ul.list-unstyled.footer-link.mt-3
                       li
-                        a(href='index.html') Home
+                        a(href='/') Home
                       li
-                        a(href='activity.html') Pages
+                        a(href='/activity') Pages
                       li
-                        a(href='blog.html') Blog
+                        a(href='/blog') Blog
                       li
-                        a(href='contact.html') Contact
+                        a(href='/contact') Contact
             .col-lg-3
               .mt-4.pl-0.pl-lg-4
                 h5.f-18.fw-bold Follow Us

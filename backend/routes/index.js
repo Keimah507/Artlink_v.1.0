@@ -11,16 +11,6 @@ const app = express();
 const router = express.Router();
 const __dirname = path.resolve();
 
-// function makeRequest(url, headers) {
-//   return axios.get(url, {headers})
-//   .then(response => {
-//     return response.data;
-//   })
-//   .catch(err => {
-//     console.error(err);
-//     throw new Error('Unable to make request')
-//   })
-// }
   
 router.get('/', (req, res) => {
   res.sendFile(__dirname + '/src/index.html');
@@ -34,12 +24,8 @@ router.get('/login', (req, res) => {
   res.sendFile(__dirname + '/src/login.html');
 });
 
-router.get('/marketplace', (req, res) => {
+router.get('/marketplace', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/index-2.html');
-});
-
-router.get('/collection', (req, res) => {
-  res.sendFile(__dirname + '/src/collection.html');
 });
 
 router.get('/activity', (req, res) => {
