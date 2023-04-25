@@ -8,12 +8,10 @@ class AuthController {
         //ok use any, still dk why!
         const header = req.headers.cookie;
 
-        if( header && typeof header != null) {
+        if( !header || typeof header == undefined) {
+            res.redirect('/login');
+        }
         const token = header.split('=')[1];
-        }
-        if (typeof token == undefined){
-          res.status(401).json({error: "Not Authorized"});
-        }
         try {
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY)
             if (!decodedToken) {
@@ -22,6 +20,7 @@ class AuthController {
             req.user = decodedToken;
             next();
         } catch(err) {
+            console.error(err);
             res.clearCookie('token');
             return res.redirect('/login');
             // migrate to API

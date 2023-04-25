@@ -3,21 +3,25 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
 import routes from './backend/routes';
+const cookieParser = require('cookie-parser') 
 const app = express();
 const __dirname = path.resolve()
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'src'));
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
 app.use(express.static('src'));
 app.use(routes);
 
 //TODO: move error handling middleware to ErrorController 
 app.use((req, res, next) => {
     res.status(404).sendFile(__dirname + '/src/404.html');
-    next();
+
+    return;
   });
 
 app.listen(5000, () => {

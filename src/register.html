@@ -147,14 +147,14 @@
 
 
                     <li class="nav-item dropdown dropdown-hover">
-                        <a class="nav-link dropdown-toggle" href="index.html" id="homedrop" role="button"
+                        <a class="nav-link dropdown-toggle" href="/index" id="homedrop" role="button"
                             data-bs-toggle="dropdown">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
-                            <li><a class="dropdown-item" href="profile.html"><i
+                            <li><a class="dropdown-item" href="/profile"><i
                                         class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                            <li><a class="dropdown-item" href="edit-profile.html"><i
+                            <li><a class="dropdown-item" href="/edit-profile"><i
                                         class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
                         </ul>
                     </li>
@@ -162,17 +162,17 @@
 
 
                     <li class="nav-item">
-                        <a href="blog.html" class="nav-link">Blog</a>
+                        <a href="/blog" class="nav-link">Blog</a>
                     </li>
                     <!--end dropdown-->
 
                     <li class="nav-item">
-                        <a href="contact.html" class="nav-link">Contact</a>
+                        <a href="/contact" class="nav-link">Contact</a>
                     </li>
                     <!--end dropdown-->
                 </ul>
                 <!--end navbar-nav-->
-                <a href="wallet.html" class="btn btn-primary">Connect to Wallet</a>
+                <a href="/wallet" class="btn btn-primary">Connect to Wallet</a>
 
             </div>
 
@@ -194,15 +194,15 @@
                 <div class="col-lg-12">
                     <div class="inner-heading">
                         <h1 class="fw-bold">Register new account</h1>
-                        <p class="fw-semibold">By getting started, you acknowledge and agree to Terms of Use and Privacy
-                            Policy</p>
+                        <p class="fw-semibold">By getting started, you acknowledge and agree to Terms of Use and <a href="/privacy">Privacy
+                            Policy</a></p>
                     </div>
                 </div>
             </div>
 
 
             <div class="mt-4">
-                <form action="/register" class="info-box" method="post" id="contactForm">
+                <form action="/register" class="info-box" method="post" id="contactForm" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-5">
                             <div class="profile-item">
@@ -213,6 +213,7 @@
                                 <p class=" mb-0 my-3 fw-bold">Profile Photo 📷</p>
 
                                 <p class="mt-2">Your Profile photo allows other users in the site to recognise you and/or your work</p>
+                                <input type="file" name="profileImg">
                                 <button class="btn btn-dark shadow">Upload</button>
                             </div>
 

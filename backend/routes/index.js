@@ -4,9 +4,13 @@ import AppController from "../controllers/AppController.js";
 import AuthController from "../controllers/AuthController.js";
 import WalletController from "../controllers/WalletController.js"
 import path from "path";
-import { async } from "@firebase/util";
 const axios = require("axios");
 const app = express();
+const multer = require('multer');
+const upload = multer({ 
+   storage: multer.memoryStorage(),
+   limits: { fileSize: 1024 * 1024 * 5}, // Max-size 5MB
+});
 
 const router = express.Router();
 const __dirname = path.resolve();
@@ -112,7 +116,7 @@ router.get('/getstatus', (req, res) => {
   AppController.getStatus(req, res);
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', upload.single('profileImg'), (req, res) => {
   UsersController.postNew(req, res);
 });
 
