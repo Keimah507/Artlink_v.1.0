@@ -243,7 +243,7 @@
             </div>
 
             <div class="mt-5">
-                <form class="info-box">
+                <form class="info-box" action="/edit-profile" method="post" id="contactForm" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-5">
                             <h4 class="fw-bold">Account Info <i
@@ -254,8 +254,8 @@
                                     <div class="Name">
                                         <label for="validationDefault01" class="form-label fw-semibold">Display Name
                                             :</label>
-                                        <input type="text" class="form-control" id="validationDefault01"
-                                            placeholder="mickel_fenn" required>
+                                        <input type="text" class="form-control" name="username" id="validationDefault01"
+                                            placeholder="John Doe">
                                     </div>
                                 </div>
 
@@ -264,28 +264,28 @@
                                         <div class="d-flex">
                                             <label for="validationDefault02" class="form-label fw-semibold"> Email
                                                 :</label>
-                                            <p class="mb-0 f-14 text-muted ms-auto">Enter Valid Email * mickel@gmail.com
+                                            <p class="mb-0 f-14 text-muted ms-auto">Enter Valid Email * example@gmail.com
                                             </p>
                                         </div>
-                                        <input type="text" class="form-control" id="validationDefault02"
-                                            placeholder="Enter Your Email" required>
+                                        <input type="text" class="form-control" name="email" id="validationDefault02"
+                                            placeholder="Enter Your Email">
                                     </div>
                                 </div>
 
-                                <div class="mt-4">
+                                <!-- <div class="mt-4">
                                     <div class="Name">
                                         <label for="validationDefault03" class="form-label fw-semibold"> Custom URL
                                             :</label>
                                         <input type="text" class="form-control" id="validationDefault03"
                                             placeholder="Themsdesign" value="Themsdesign" required>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="mt-4">
                                     <div class="Name">
                                         <label for="validationDefault03" class="form-label fw-semibold"> Bio :</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                            required></textarea>
+                                        <textarea class="form-control" name="bio" id="exampleFormControlTextarea1" rows="3"
+                                            ></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -300,7 +300,7 @@
                                         <label for="validationDefault3" class="form-label fw-semibold">Facebook
                                             :</label>
                                         <input type="text" class="form-control" id="validationDefault3"
-                                            placeholder="Facebook Username" required>
+                                            placeholder="Facebook Username">
                                         <button type="submit" class="btn btn-sm btn-blue mt-3"><i
                                                 class="mdi mdi-facebook f-18 align-middle me-2"></i>Connect To
                                             Facebook</button>
@@ -312,7 +312,7 @@
                                         <label for="validationDefault001" class="form-label fw-semibold">twitter
                                             :</label>
                                         <input type="text" class="form-control" id="validationDefault001"
-                                            placeholder="twitter Username" required>
+                                            placeholder="twitter Username">
                                         <button type="submit" class="btn btn-sm btn-blue mt-3"><i
                                                 class="mdi mdi-twitter f-18 align-middle me-2"></i>Connect To
                                             twitter</button>
@@ -324,7 +324,7 @@
                                         <label for="validationDefault04" class="form-label fw-semibold">Linkedin
                                             :</label>
                                         <input type="text" class="form-control" id="validationDefault04"
-                                            placeholder="Linkedin Username" required>
+                                            placeholder="Linkedin Username">
                                         <button type="submit" class="btn btn-sm btn-blue mt-3"><i
                                                 class="mdi mdi-linkedin f-18 align-middle me-2"></i>Connect To
                                             Linkedin</button>
@@ -345,7 +345,7 @@
                                         <div class="flex-grow-1 ms-3">
                                             <div class="d-flex">
                                                 <div class="button">
-                                                    <input type="file" class="btn btn-dark">
+                                                    <input type="file" class="btn btn-dark" name="profileImg">
                                                 </div>
                                                 <button class="btn btn-white shadow ms-3 text-dark">Delete</button>
                                             </div>
@@ -356,8 +356,8 @@
                         </div>
                         <hr class="my-4">
 
-                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste neque
-                            laboriosam odit non amet eligendi, <br> assumenda labore tempore quam numquam.</p>
+                        <!-- <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste neque
+                            laboriosam odit non amet eligendi, <br> assumenda labore tempore quam numquam.</p> -->
 
                         <div class="submit-button">
                             <button class="btn btn-primary" type="submit">Submit</button>
@@ -398,10 +398,10 @@
                                 <div class="mt-4">
                                     <h5 class="f-18 fw-bold">Policies</h5>
                                     <ul class="list-unstyled footer-link mt-3">
-                                        <li><a href="">Security & Provciy</a></li>
-                                        <li><a href="">Marketplace</a></li>
-                                        <li><a href="">Term & Condition</a></li>
-                                        <li><a href="">Collection</a></li>
+                                        <li><a href="/privacy">Security & Privacy</a></li>
+                                        <li><a href="/marketplace">Marketplace</a></li>
+                                        <li><a href="">Terms & Condition</a></li>
+                                        <li><a href="/collection">Collections</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -410,10 +410,10 @@
                                 <div class="mt-4">
                                     <h5 class="f-18 fw-bold">Company</h5>
                                     <ul class="list-unstyled footer-link mt-3">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="activity.html">Pages</a></li>
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="/">Home</a></li>
+                                        <li><a href="/activity">Pages</a></li>
+                                        <li><a href="/blog">Blog</a></li>
+                                        <li><a href="/contact">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>

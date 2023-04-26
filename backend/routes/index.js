@@ -17,7 +17,7 @@ const __dirname = path.resolve();
 
   
 router.get('/', (req, res) => {
-  res.sendFile(__dirname + '/src/index.html');
+  res.sendFile(__dirname + '/src/index-3.html');
 });
   
 router.get('/register', (req, res) => {
@@ -123,6 +123,10 @@ router.post('/register', upload.single('profileImg'), (req, res) => {
 router.post('/login', (req, res) => {
   UsersController.login(req, res);
 });
+
+router.post('/edit-profile', upload.single('profileImg'), (req, res) => {
+  UsersController.updateUser(req, res);
+})
 
 router.get('/connect', (req, res) => {
   AuthController.verifyToken(req, res);
