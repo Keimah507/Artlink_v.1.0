@@ -1,24 +1,50 @@
+import { Web3Provider } from "@ethersproject/providers";
 import AuthController from "./AuthController";
-// import { ethers } from "ethers";
+const ethers = require('ethers');
+const detectProvider = require('@metamask/detect-provider');
 
-class WalletController {
+export default class WalletController {
+  // Move to client-side
     static async connectWallet(req, res) {
-        try {
-          // Check if the user has MetaMask installed
-          if (typeof window.ethereum === 'undefined') {
-            alert('Please install MetaMask to connect your wallet.');
-            return;
-          }
-    
-          // Request access to the user's MetaMask account
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-    
-          // Redirect the user to the /connect-wallet route
-        //   window.location.href = '/connect-wallet';
-        } catch (error) {
-          console.error(error);
-          alert('An error occurred while connecting your wallet. Please try again later.');
+      
+      const provider = await detectProvider();
+
+      if(provider){
+        const web3Provider = new Web3Provider(provider);
+      try{
+        const accounts = await web3Provider.listAccounts();
+
+        if (accounts.length === 0){
+          console.log('Wallet is not connected');
+        } else {
+          const walletAddress = accounts[0];
+          console.log(`Your wallet address is ${walletAddress}`);
         }
+      } catch(err){
+        res.status(500).json({Error: `Internal Server Error: err`});
       }
+    } else {
+      window.location.href('https://metamask.io/download.html');
+    }
+  }
 }
-const walletController = new WalletController();
+//       if (typeof window.ethereum === 'undefined') {
+//         window.location.href('https://metamask.io/download.html');
+//         }
+//       else{
+//         window.ethereum.request({ method: 'eth_accounts'})
+//         .then(accounts => {
+//           if (accounts.length === 0) {
+//             console.log('Wallet is not connected');
+//           }
+//           else {
+//             const walletAddress = accounts[0];
+//             console.log(`Wallet address: ${walletAddress}`);
+//           }
+//         })
+//         .catch(error => {
+//           console.log(error);
+//         });
+//       }
+//     }
+// }

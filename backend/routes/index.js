@@ -28,27 +28,31 @@ router.get('/login', (req, res) => {
   res.sendFile(__dirname + '/src/login.html');
 });
 
+router.get('/logout'), (req, res) => {
+  UsersController.logOut(req, res);
+}
+
 router.get('/marketplace', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/index-2.html');
 });
 
-router.get('/activity', (req, res) => {
+router.get('/activity', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/activity.html');
 });
 
-router.get('/item-details', (req, res) => {
+router.get('/item-details', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/item-details.html');
 });
 
-router.get('/post-details', (req, res) => {
+router.get('/post-details', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/post-details.html');
 });
 
-router.get('/newsletter', (req, res) => {
+router.get('/newsletter', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/newsletter.html');
 });
 
-router.get('/creatore', (req, res) => {
+router.get('/creatore', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/creatore.html');
 });
 
@@ -56,16 +60,12 @@ router.get('/privacy', (req, res) => {
   res.sendFile(__dirname + '/src/privacy.html');
 });
 
-router.get('/wallet', (req, res) => {
+router.get('/wallet', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/wallet.html');
 });
 
-router.get('/connect-wallet',(req, res) => {
+router.get('/connect-wallet', AuthController.verifyToken, (req, res) => {
   WalletController.connectWallet(req, res);
-});
-
-router.get('/privacy', (req, res) => {
-  res.sendFile(__dirname + '/src/privacy.html');
 });
 
 router.get('/faq', (req, res) => {
@@ -80,7 +80,7 @@ router.get('/artical', (req, res) => {
   res.sendFile(__dirname + '/src/artical.html');
 });
 
-router.get('/ranking', (req, res) => {
+router.get('/ranking', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/ranking.html');
 });
 
@@ -96,7 +96,7 @@ router.get('/edit-profile', (req, res) => {
   res.sendFile(__dirname + '/src/edit-profile.html');
 });
 
-router.get('/blog', (req, res) => {
+router.get('/blog', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/blog.html');
 });
 
@@ -104,7 +104,7 @@ router.get('/contact', (req, res) => {
   res.sendFile(__dirname + '/src/contact.html');
 });
 
-router.get('/submit-request', (req, res) => {
+router.get('/submit-request', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/submit-request.html');
 });
 

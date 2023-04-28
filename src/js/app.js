@@ -53,28 +53,3 @@ function setColor(theme) {
   document.getElementById("color-opt").href = "./css/colors/" + theme + ".css";
   toggleSwitcher(false);
 }
-
-//TODO: Move this to /controllers/WalletController.js
-
-// const walletIcon = document.getElementById('connect-wallet');
-// walletIcon.addEventListener('click', async() => {
-//     if (window.ethereum) {
-//         try {
-//             await window.ethereum.enable();
-
-//             const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-//             await provider.send("eth_requestAccounts", []);
-//             const signer = provider.getSigner();
-
-//             const address = await signer.getAddress();
-//             const chainId = await provider.getNetwork().then(network => network.chainId);
-
-//             console.log(`Connected to wallet with address ${address} on chain ${chainId}`);
-//         } catch (err) {
-//             console.error(err);
-//         }
-//     } else {
-//         window.open("https://metamask.io/download/", "_blank");
-//     }
-// });

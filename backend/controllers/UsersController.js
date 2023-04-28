@@ -1,4 +1,5 @@
 import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc, writeBatch, updateDoc } from "firebase/firestore";
+import { getAuth, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import bcrypt, { compare } from "bcrypt";
 import AuthController from "./AuthController.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -8,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const { storage, dbClient } = require('../js/firebase.js');
 // TODOS: use GCP storage (buckets) instead of firebase to add/render image files
+
+const auth = getAuth();
 
 require("dotenv").config();
 
@@ -30,25 +33,24 @@ export default class UsersController {
             return;
          }
 
-         let profileImgUrl;
-         const file = req.file;
-         if(file){
-            try {
-            const imageRef = ref(storage, `profileImage/${email}`);
-            // const imageBytes = Buffer.from(file.split(' ')[1], 'base64');
-            const uploadTask = uploadBytes(imageRef, file.buffer);
-            const snapshot = await uploadTask;
-            // TODO: Make sure image url is saved to user Details
-            getDownloadURL(snapshot.ref).then((async downloadUrl => {
-               console.log(`File uploaded to ${downloadUrl}`);
-               const details = doc(dbClient, 'users', email);
-               await setDoc(details, downloadUrl);
-            }));
-            } catch(err) {
-               console.error(err);
-               return res.status(500).json({"Error": `Internal Server Error ${err}`});
-            }
-         }
+         // const file = req.file;
+         // if(file){
+         //    try {
+         //    const imageRef = ref(storage, `profileImage/${email}`);
+         //    // const imageBytes = Buffer.from(file.split(' ')[1], 'base64');
+         //    const uploadTask = uploadBytes(imageRef, file.buffer);
+         //    const snapshot = await uploadTask;
+         //    // TODO: Make sure image url is saved to user Details
+         //    getDownloadURL(snapshot.ref).then((async downloadUrl => {
+         //       console.log(`File uploaded to ${downloadUrl}`);
+         //       const details = doc(dbClient, 'users', email);
+         //       await setDoc(details, downloadUrl);
+         //    }));
+         //    } catch(err) {
+         //       console.error(err);
+         //       return res.status(500).json({"Error": `Internal Server Error ${err}`});
+         //    }
+         // }
 
          const saltRounds = 10
          const hashedPw = await bcrypt.hash(password, saltRounds);
@@ -70,12 +72,30 @@ export default class UsersController {
       { email: user.email }, process.env.JWT_SECRET_KEY,
       {expiresIn: "2h"}
       );
-      //TODO: copy token and set it to headers(automatically)
-      res.cookie('token', token, {
-         httpOnly : true,
-         });
+   //TODO: copy token and set it to headers(automatically)
+   res.cookie('token', token, {
+      httpOnly : true,
+   });
       
-      res.redirect('/marketplace');
+   createUserWithEmailAndPassword(auth, email, password)
+   .then((userCredential) => {
+      const user = userCredential.user;
+   })
+   .catch((err) => {
+      const errorCode = err.code;
+      const errorMessage = err.mesage;
+      res.status(500).json({Error: `Internal Server Error ${errorMessage}`});
+   })
+   // signInWithCustomToken(auth, token)
+   // .then((userCredential) => {
+   //    const user = userCredential.user;
+   // })
+   // .catch((err) => {
+   //    const errorCode = err.code;
+   //    const errorMessage = err.message;
+   // });
+
+   res.redirect('/marketplace');
 }
 
 
@@ -110,6 +130,23 @@ export default class UsersController {
    httpOnly : true,
    });
 
+   signInWithEmailAndPassword(auth, email, password)
+   .then((userCredential) => {
+      const user = userCredential.user;
+   })
+   .catch((err) => {
+      const ErrorCode = err.code;
+      const errorMessage = err.mesage;
+   });
+   // signInWithCustomToken(auth, token)
+   // .then((userCredential) => {
+   //    const user = userCredential.user;
+   // })
+   // .catch((err) => {
+   //    const errorCode = err.code;
+   //    const errorMessage = err.message;
+   // });
+
    // console.log(token);
    // res.status(200).json({token: token});
    //A bit hardcoded...look for ways around this
@@ -119,10 +156,16 @@ export default class UsersController {
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
 
-      const userid = req.query.email;
+      // const header = req.headers.cookie;
+      // if ( !header || typeof header == undefined) {
+      //    res.redirect('/login');
+      // }
+      // const token = header.split('=')[1];
+      // jwt.decode(token, process.env.JWT_SECRET_KEY);
+      const userId = req.query.email;
       try {
          const usersCollection = collection(dbClient, 'users');
-         const usersQuery = query(usersCollection, where("email", "==", userid));
+         const usersQuery = query(usersCollection, where("email", "==", userId));
          const querySnapshot = await getDocs(usersQuery);
          if (querySnapshot.size === 0){
             return res.status(400).json({error: "User not found"});
@@ -199,6 +242,16 @@ export default class UsersController {
          res.status(500).json({Error: `Internal Server Error: Cannot update details ${err}`});
       }
 
+    }
+
+    static logOut(req, res) {
+      res.clearCookie('token');
+      signOut(auth).then(() => {
+         res.redirect('/login');
+      })
+      .catch((err) => {
+         res.status(500).json({Error: `An error occured, ${err}`})
+      })
     }
 }
 
