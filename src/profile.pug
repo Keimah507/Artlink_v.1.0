@@ -175,7 +175,7 @@ html(lang='en')
           .col-lg-6
             .d-flex.align-items-center.justify-content-start
               .avatar
-                img.img-fluid.avatar-xl.border.border-4.border-white.rounded-circle(src='#{profileImg}', alt='User\'s profile picture')
+                img.img-fluid.avatar-xl.border.border-4.border-white.rounded-circle(src=profileImg, alt='User\'s profile picture')
               .profile-name.ms-3
                 h6.fw-bold  @#{username}
           .col-lg-6
@@ -196,11 +196,11 @@ html(lang='en')
                         i.mdi.mdi-dots-vertical
                       ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
                         li
-                          a.dropdown-item(href='#') Action
+                          a.dropdown-item(href='/edit-profile') Edit Profile
                         li
-                          a.dropdown-item(href='#') Another action
+                          a.dropdown-item(href='/marketplace') Go to Marketplace
                         li
-                          a.dropdown-item(href='#') Something else here
+                          a.dropdown-item(href='/collections') Collections
         // end row
         // start row
         .row.mt-4
@@ -208,17 +208,26 @@ html(lang='en')
             .about-detail
               h6.fw-bold About Me :
               .details-box
-                p.text-muted.f-16
-                  #{bio}
+                p.text-muted.f-16 #{Bio}
                 .row.d-flex.mt-4
                   .col-lg-6
                     p.fw-semibold.f-16.mb-0.text-muted Collections
-                    if collections != null
-                    p.fw-semibold.f-18 #{collections}
+                    //- serve user collections here
+                    var collections
+                    #collections
+                      if collections != null
+                        p.fw-semibold.f-18 #{collections}
+                      else if collections == null 
+                        p.fw-semibold.f-18 0
                   .col-lg-6
                     p.fw-semibold.f-16.mb-0.text-muted Creations
-                    if creations != null
-                    p.fw-semibold.f-18 #{creations}
+                    //- Serve user NFTs here
+                    var creations
+                    #creations
+                      if creations != null
+                        p.fw-semibold.f-18 #{creations}
+                      else if collections == null 
+                        p.fw-semibold.f-18 0
             |  
             .Social-detail.mt-5
               h6.fw-bold Follow Social Media :
@@ -505,7 +514,7 @@ html(lang='en')
                   img.logo-dark(src='/images/logo-dark.png', alt='', height='40')
                   img.logo-light(src='/images/logo-light.png', alt='', height='40')
                 p.f-18.mt-2.text-muted
-                  | Business opportunities Are Like Buses. br There is Always Another One Coming...
+                  | Business opportunities Are Like Buses. There is Always Another One Coming...
             .col-lg-5
               .row
                 .col-lg-6
@@ -513,13 +522,13 @@ html(lang='en')
                     h5.f-18.fw-bold Policies
                     ul.list-unstyled.footer-link.mt-3
                       li
-                        a(href='') Security &amp; Privacy
+                        a(href='/privacy') Security &amp; Privacy
                       li
-                        a(href='') Marketplace
+                        a(href='/marketplace') Marketplace
                       li
                         a(href='') Terms &amp; Conditions
                       li
-                        a(href='') Collection
+                        a(href='/collection') Collection
                 .col-lg-6
                   .mt-4
                     h5.f-18.fw-bold Company

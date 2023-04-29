@@ -28,9 +28,9 @@ router.get('/login', (req, res) => {
   res.sendFile(__dirname + '/src/login.html');
 });
 
-router.get('/logout'), (req, res) => {
+router.get('/logout', (req, res) => {
   UsersController.logOut(req, res);
-}
+});
 
 router.get('/marketplace', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + '/src/index-2.html');
