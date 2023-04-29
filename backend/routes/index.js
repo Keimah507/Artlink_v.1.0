@@ -132,8 +132,12 @@ router.get('/connect', (req, res) => {
   AuthController.verifyToken(req, res);
 });
 
-router.get('/profile/:id', AuthController.verifyToken, async(req, res) => {
+router.get('/users/me', AuthController.verifyToken, async(req, res) => {
 UsersController.getUser(req, res);
 });
+
+// router.get('/users/me', AuthController.verifyToken, (req, res) => { 
+//   res.redirect('/profile')
+// })
 
 module.exports = router;

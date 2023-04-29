@@ -1,14 +1,24 @@
 import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc, writeBatch, updateDoc } from "firebase/firestore";
-import { getAuth, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import bcrypt, { compare } from "bcrypt";
 import AuthController from "./AuthController.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { base64 } from "@firebase/util";
 const {v4:uuidv4} = require('uuid');
+const admin = require('firebase-admin');
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
-const { storage, dbClient } = require('../js/firebase.js');
+const { Storage } = require('@google-cloud/storage');
+const storage = new Storage();
+const { dbClient } = require('../js/firebase.js');
+const serviceAccount =  require('../nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
+
+admin.initializeApp({
+   credential: admin.credential.cert(serviceAccount),
+})
 // TODOS: use GCP storage (buckets) instead of firebase to add/render image files
+
+const bucketname = 'nft-marketplace-e6568.appspot.com';
 
 const auth = getAuth();
 
@@ -33,46 +43,57 @@ export default class UsersController {
             return;
          }
 
-         // const file = req.file;
-         // if(file){
-         //    try {
-         //    const imageRef = ref(storage, `profileImage/${email}`);
-         //    // const imageBytes = Buffer.from(file.split(' ')[1], 'base64');
-         //    const uploadTask = uploadBytes(imageRef, file.buffer);
-         //    const snapshot = await uploadTask;
-         //    // TODO: Make sure image url is saved to user Details
-         //    getDownloadURL(snapshot.ref).then((async downloadUrl => {
-         //       console.log(`File uploaded to ${downloadUrl}`);
-         //       const details = doc(dbClient, 'users', email);
-         //       await setDoc(details, downloadUrl);
-         //    }));
-         //    } catch(err) {
-         //       console.error(err);
-         //       return res.status(500).json({"Error": `Internal Server Error ${err}`});
-         //    }
-         // }
+         const file = req.file;
+         if(file){
+            try {
+               const bucket = storage.bucket(bucketname);
+               const blob = bucket.file(file.originalname);
 
-         const saltRounds = 10
-         const hashedPw = await bcrypt.hash(password, saltRounds);
-         const user = {
-            username: username,
-            email: email,
-            password: hashedPw,
-            Bio: bio,
-      };
-      // TODO: Add data to firestore
+               // Create a write stream to upload file to GCS
+               const blobStream = blob.createWriteStream({
+                  resumable: false,
+                  metadata: {
+                     contentType: file.mimetype
+                  },
+               });
 
-      try {
-      const docRef = await setDoc(doc(dbClient, 'users', email), user);   
+               blobStream.on('error', (err) => {
+                  res.json(500).json({Error: `Cannot upload file ${err}`});
+               });
 
-   } catch(err) {
-      return res.status(500).json({error: err});
-   }
+               blobStream.on('finish', async() => {
+                  await blob.makePublic();
+
+                  const profileImgUrl = `https://storage.googleapis.com/${bucketname}/${file.originalname}`;
+
+                  const saltRounds = 10;
+                  const hashedPw = await bcrypt.hash(password, saltRounds);
+                  const user = {
+                     username: username,
+                     email: email,
+                     password: hashedPw,
+                     Bio: bio,
+                     profileImg: profileImgUrl
+                  };
+                  
+                  const userDetails = doc(dbClient, 'users', email);
+                  await setDoc(userDetails, user);
+
+                  console.log(`File uploaded to ${profileImgUrl}`);
+               });
+
+               blobStream.end(file.buffer);
+            } catch(err) {
+               console.error(err);
+               return res.status(500).json({"Error": `Internal Server Error ${err}`});
+            }
+         }
+
    const token = jwt.sign(
-      { email: user.email }, process.env.JWT_SECRET_KEY,
+      { email: email }, process.env.JWT_SECRET_KEY,
       {expiresIn: "2h"}
       );
-   //TODO: copy token and set it to headers(automatically)
+   // TODO: copy token and set it to headers(automatically)
    res.cookie('token', token, {
       httpOnly : true,
    });
@@ -86,15 +107,6 @@ export default class UsersController {
       const errorMessage = err.mesage;
       res.status(500).json({Error: `Internal Server Error ${errorMessage}`});
    })
-   // signInWithCustomToken(auth, token)
-   // .then((userCredential) => {
-   //    const user = userCredential.user;
-   // })
-   // .catch((err) => {
-   //    const errorCode = err.code;
-   //    const errorMessage = err.message;
-   // });
-
    res.redirect('/marketplace');
 }
 
@@ -138,46 +150,34 @@ export default class UsersController {
       const ErrorCode = err.code;
       const errorMessage = err.mesage;
    });
-   // signInWithCustomToken(auth, token)
-   // .then((userCredential) => {
-   //    const user = userCredential.user;
-   // })
-   // .catch((err) => {
-   //    const errorCode = err.code;
-   //    const errorMessage = err.message;
-   // });
 
-   // console.log(token);
-   // res.status(200).json({token: token});
    //A bit hardcoded...look for ways around this
-   res.redirect(`/profile/:id?email=${email}`);
+   res.redirect('/marketplace');
  }
 
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
 
-      // const header = req.headers.cookie;
-      // if ( !header || typeof header == undefined) {
-      //    res.redirect('/login');
-      // }
-      // const token = header.split('=')[1];
-      // jwt.decode(token, process.env.JWT_SECRET_KEY);
-      const userId = req.query.email;
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user != null) {
       try {
          const usersCollection = collection(dbClient, 'users');
-         const usersQuery = query(usersCollection, where("email", "==", userId));
+         const usersQuery = query(usersCollection, where("email", "==", user.email));
          const querySnapshot = await getDocs(usersQuery);
          if (querySnapshot.size === 0){
             return res.status(400).json({error: "User not found"});
          }
          const userData = querySnapshot.docs[0].data();
-         const { username, email:userEmail, Bio: bio, profileImg: profileImg} = userData;
+         const { username, email:userEmail, Bio, profileImg: profileImg} = userData;
 
-         // res.status(200).json({username, userEmail, bio});
-         res.render('profile', {username, userEmail, bio, profileImg});
+         res.render('profile', {username, userEmail, Bio, profileImg});
       } catch (err) {
          res.status(500).json({error: `Internal server Error: ${err}`});
       }
+   } else {
+      res.status(500).json({Error: "Cannot sign you in"});
+   }
 
 
     }
@@ -206,7 +206,6 @@ export default class UsersController {
 
       const tokenId = jwt.decode(token, process.env.JWT_SECRET_KEY);
       const userId = tokenId.email;
-      // console.log(userId);
       if(userId == null) {
          res.redirect('/login')
       }
@@ -214,18 +213,35 @@ export default class UsersController {
       const file = req.file;
       if(file){
          try {
-         const imageRef = ref(storage, `profileImages`);
-         // const imageBytes = Buffer.from(file.split(' ')[1], 'base64');
-         const uploadTask = uploadBytes(imageRef, file.buffer);
-         const snapshot = await uploadTask;
-         // TODO: Make sure image url is saved to user Details
-         const profileImgUrl = await getDownloadURL(snapshot.ref).then(async (downloadUrl) => {
-            console.log(`file uploaded at ${downloadUrl}`);
-            const details = doc(dbClient, 'users', userId);
-            await updateDoc(details, {
-               profileImg: downloadUrl
+            const bucket = storage.bucket(bucketname);
+            const blob = bucket.file(file.originalname);
+
+            // Create a write stream to upload file GCS
+            const blobStream = blob.createWriteStream({
+               resumable: false,
+               metadata: {
+                  contentType : file.mimetype
+               },
             });
+
+            blobStream.on('error', (err) => {
+               res.status(500).json({Error: `Cannot upload file ${err}`});
+            });
+
+            blobStream.on('finish', async() => {
+               await blob.makePublic();
+
+            const profileImgUrl = `https://storage.googleapis.com/${bucketname}/${file.originalname}`;
+
+            const userDetails = doc(dbClient, 'users', userId);
+            await updateDoc(userDetails, {
+               profileImg: profileImgUrl
+            });
+
+            console.log(`File uploaded to ${profileImgUrl}`);
          });
+
+         blobStream.end(file.buffer);
          } catch(err) {
             console.error(err);
             return res.status(500).json({"Error": `Cannot upload file ${err}`});
@@ -254,5 +270,4 @@ export default class UsersController {
       })
     }
 }
-
 // module.exports = UsersController;

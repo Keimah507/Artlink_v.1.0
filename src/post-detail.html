@@ -41,7 +41,7 @@
       <!--Navbar Start-->
       <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
         <div class="container-fluid custom-container">
-            <a class="navbar-brand logo f-30 text-dark fw-bold" href="index.html">
+            <a class="navbar-brand logo f-30 text-dark fw-bold" href="/">
                 <img src="images/logo-dark.png" class="logo-dark" alt="" height="40">
                 <img src="images/logo-light.png" class="logo-light" alt="" height="40">
             </a>
@@ -59,7 +59,7 @@
                             Home
                         </a>
                         <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
-                            <li><a class="dropdown-item" href="index.html"><i
+                            <li><a class="dropdown-item" href="/"><i
                                         class="mdi mdi-home-outline f-20 me-2 align-middle"></i>Home Page 1</a></li>
                             <li><a class="dropdown-item" href="index-3.html"><i
                                         class="mdi mdi-home-modern f-20 me-2 align-middle"></i>Home Page 2</a></li>
@@ -69,7 +69,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="marketplace" class="nav-link">Marketplace</a>
+                        <a href="/marketplace" class="nav-link">Marketplace</a>
                     </li>
 
                     <li class="nav-item">
@@ -122,7 +122,7 @@
                                     </li>
                                     <li><a class="dropdown-item" href="/submit-request"><i
                                                 class="mdi mdi-check-circle-outline f-20 me-2 align-middle"></i>submit
-                                            Reqeust</a></li>
+                                            Request</a></li>
 
                                     <li><a class="dropdown-item" href="/chat"><i
                                                 class="mdi mdi-message-text-outline f-20 me-2 align-middle"></i>Chat</a>
@@ -147,14 +147,14 @@
 
 
                     <li class="nav-item dropdown dropdown-hover">
-                        <a class="nav-link dropdown-toggle" href="index.html" id="homedrop" role="button"
+                        <a class="nav-link dropdown-toggle" href="/" id="homedrop" role="button"
                             data-bs-toggle="dropdown">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
-                            <li><a class="dropdown-item" href="profile.html"><i
+                            <li><a class="dropdown-item" href="/users/me"><i
                                         class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                            <li><a class="dropdown-item" href="edit-profile.html"><i
+                            <li><a class="dropdown-item" href="/edit-profile"><i
                                         class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
                         </ul>
                     </li>
@@ -162,17 +162,20 @@
 
 
                     <li class="nav-item">
-                        <a href="blog.html" class="nav-link">Blog</a>
+                        <a href="/blog" class="nav-link">Blog</a>
                     </li>
                     <!--end dropdown-->
 
                     <li class="nav-item">
-                        <a href="contact.html" class="nav-link">Contact</a>
+                        <a href="/contact" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout">Log Out</a>
                     </li>
                     <!--end dropdown-->
                 </ul>
                 <!--end navbar-nav-->
-                <a href="wallet.html" class="btn btn-primary">Connect to Wallet</a>
+                <a href="/wallet" class="btn btn-primary">Connect to Wallet</a>
 
             </div>
 
@@ -191,7 +194,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb default mb-0">
                             <li class="breadcrumb-item">
-                                <a href="index.html" class="text-muted">Home</a>
+                                <a href="/" class="text-muted">Home</a>
                             </li>
                             <li class="breadcrumb-item active text-primary" aria-current="page">Forum</li>
                         </ol>
