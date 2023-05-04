@@ -147,7 +147,7 @@ router.get('/creators', async(req, res) => {
 router.post('/saveWalletAddress', async(req, res) => {
   const payload  = req.body;
   const walletAddress = payload.walletAddress;
-  console.log(walletAddress);
+  // console.log(walletAddress);
 
 
   const header = req.headers.cookie;
