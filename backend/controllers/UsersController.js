@@ -158,11 +158,13 @@ export default class UsersController {
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
 
+
       const auth = getAuth();
       const user = auth.currentUser;
       if (user != null) {
       try {
          const usersCollection = collection(dbClient, 'users');
+         // console.log(user.email);
          const usersQuery = query(usersCollection, where("email", "==", user.email));
          const querySnapshot = await getDocs(usersQuery);
          if (querySnapshot.size === 0){
@@ -176,10 +178,24 @@ export default class UsersController {
          res.status(500).json({error: `Internal server Error: ${err}`});
       }
    } else {
-      res.status(500).json({Error: "Cannot sign you in"});
+      res.redirect('/login')
    }
 
 
+    }
+
+    static async getUsers(req, res) {
+      try {
+         const users = [];
+         const querySnapshot = await getDocs(collection(dbClient, "users"));
+         querySnapshot.forEach((doc) => {
+            users.push(doc.data());
+         });
+         // res.status(200).json({users: docs})
+         res.render('creators', {users: users});
+      } catch (err) {
+         res.status(500).json({error: `Internal server Error: ${err}`});
+      }
     }
 
     static async updateUser(req, res) {
@@ -253,7 +269,7 @@ export default class UsersController {
       try {
       const userDetails = doc(dbClient, 'users', userId);
       await updateDoc(userDetails, userData);
-      res.redirect('/edit-profile');
+      res.redirect('/users/me');
       } catch(err) {
          res.status(500).json({Error: `Internal Server Error: Cannot update details ${err}`});
       }

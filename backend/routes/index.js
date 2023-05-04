@@ -3,7 +3,11 @@ import UsersController from "../controllers/UsersController.js";
 import AppController from "../controllers/AppController.js";
 import AuthController from "../controllers/AuthController.js";
 import WalletController from "../controllers/WalletController.js"
+import jwt from 'jsonwebtoken';
 import path from "path";
+import { getAuth } from "firebase/auth";
+import { dbClient } from "../js/firebase.js";
+import { doc, updateDoc } from "firebase/firestore";
 const axios = require("axios");
 const app = express();
 const multer = require('multer');
@@ -130,6 +134,37 @@ router.post('/edit-profile', upload.single('profileImg'), (req, res) => {
 
 router.get('/connect', (req, res) => {
   AuthController.verifyToken(req, res);
+});
+
+router.get('/users', async(req, res) => {
+  UsersController.getUsers(req, res);
+});
+
+router.get('/creators', async(req, res) => {
+  UsersController.getUsers(req, res)
+});
+
+router.post('/saveWalletAddress', async(req, res) => {
+  const payload  = req.body;
+  const walletAddress = payload.walletAddress;
+  console.log(walletAddress);
+
+
+  const header = req.headers.cookie;
+  if(!header || typeof header == undefined) console.error('Cant fetch');
+  const token = header.split('=')[1];
+
+  const tokenId = jwt.decode(token, process.env.JWT_SECRET_KEY);
+  const userId = tokenId.email;
+  try {
+    const userDetails = doc(dbClient, 'users', userId);
+    await updateDoc(userDetails, {
+      walletAddress: walletAddress,
+    });
+  console.log('Saved to firestore');
+  }catch(err){
+  res.status(500).json({Error: `Internal Server Error: ${err}`})
+  }
 });
 
 router.get('/users/me', AuthController.verifyToken, async(req, res) => {
