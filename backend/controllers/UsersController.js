@@ -11,11 +11,11 @@ const axios = require("axios");
 const { Storage } = require('@google-cloud/storage');
 const storage = new Storage();
 const { dbClient } = require('../js/firebase.js');
-const serviceAccount =  require('../nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
+// const serviceAccount =  require('../nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
 
-admin.initializeApp({
-   credential: admin.credential.cert(serviceAccount),
-})
+// admin.initializeApp({
+//    credential: admin.credential.cert(serviceAccount),
+// })
 // TODOS: use GCP storage (buckets) instead of firebase to add/render image files
 
 const bucketname = 'nft-marketplace-e6568.appspot.com';
@@ -112,6 +112,7 @@ export default class UsersController {
 
 
    //TODO: add login method(With auth)
+   //TODO: fix bug that requires user to log in twice to view profile
    static async login(req, res) {
    const { email, password } = req.body;
    res.clearCookie();
@@ -120,9 +121,8 @@ export default class UsersController {
 
    const userExistsQuery = query(collection(dbClient, 'users'), where('email', '==', email));
    const queryExistsSnapshot = await getDocs(userExistsQuery);
-   if (queryExistsSnapshot.size < 0){
-      res.status(401).json({error: "user not found"});
-      return;
+   if (queryExistsSnapshot.empty){
+      return res.status(401).json({error: "user not found"});
    }
 
    const userData = queryExistsSnapshot.docs[0].data();
@@ -151,8 +151,9 @@ export default class UsersController {
       const errorMessage = err.mesage;
    });
 
-   //A bit hardcoded...look for ways around this
-   res.redirect('/marketplace');
+
+   res.status(200).json({success: "Login successful"});
+   // res.redirect('/marketplace');
  }
 
     //TODO: add getUser method(With auth)
@@ -171,9 +172,9 @@ export default class UsersController {
             return res.status(400).json({error: "User not found"});
          }
          const userData = querySnapshot.docs[0].data();
-         const { username, email:userEmail, Bio, profileImg: profileImg} = userData;
+         const { username, email:userEmail, Bio, profileImg: profileImg, walletAddress: walletAddress} = userData;
 
-         res.render('profile', {username, userEmail, Bio, profileImg});
+         res.render('profile', {username, userEmail, Bio, profileImg, walletAddress});
       } catch (err) {
          res.status(500).json({error: `Internal server Error: ${err}`});
       }

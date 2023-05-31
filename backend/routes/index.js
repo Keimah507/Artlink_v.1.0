@@ -3,11 +3,14 @@ import UsersController from "../controllers/UsersController.js";
 import AppController from "../controllers/AppController.js";
 import AuthController from "../controllers/AuthController.js";
 import WalletController from "../controllers/WalletController.js"
+import NFTController from "../controllers/NFTController.js";
 import jwt from 'jsonwebtoken';
 import path from "path";
 import { getAuth } from "firebase/auth";
 import { dbClient } from "../js/firebase.js";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { get } from "http";
+import { async } from "@firebase/util";
 const axios = require("axios");
 const app = express();
 const multer = require('multer');
@@ -72,6 +75,10 @@ router.get('/connect-wallet', AuthController.verifyToken, (req, res) => {
   WalletController.connectWallet(req, res);
 });
 
+router.get('/mintNFT', AuthController.verifyToken, (req, res) => {
+  res.sendFile(__dirname + '/src/mintNFT.html')
+});
+
 router.get('/faq', (req, res) => {
   res.sendFile(__dirname + '/src/faq.html');
 });
@@ -113,6 +120,7 @@ router.get('/submit-request', AuthController.verifyToken, (req, res) => {
 });
 
 router.get('/collection', AuthController.verifyToken, (req, res) => {
+  // NFTController.getNFT(req, res);
   res.sendFile(__dirname + "/src/collection.html");
 });
 
@@ -130,8 +138,48 @@ router.post('/login', (req, res) => {
 
 router.post('/edit-profile', upload.single('profileImg'), (req, res) => {
   UsersController.updateUser(req, res);
-})
+});
 
+router.post('/mintNFT', upload.single('NFTImage'), async(req, res) => {
+  try{
+    const { nftName, NFTdescription, NFTCollection, nftPrice } = req.body;
+
+    const header = req.headers.cookie;
+    if(!header || typeof header == undefined) console.error('Cant fetch');
+    const token = header.split('=')[1];
+  
+    const tokenId = jwt.decode(token, process.env.JWT_SECRET_KEY);
+    const userId = tokenId.email;
+
+    const userDocRef = doc(dbClient, 'users', userId);
+    const userDocSnap = await getDoc(userDocRef);
+    if(userDocSnap.exists){
+      const userData = userDocSnap.data();
+      const walletAddress = userData.walletAddress;
+      console.log(walletAddress);
+      if(!walletAddress){
+        window.location.href('/connect-wallet');
+      }
+
+      const file = req.file.toString();
+      console.log(file);
+      const imageBuffer = req.file.buffer;
+
+      const ipfsUrl = await NFTController.uploadImageToIPFS(file);
+
+      const txHash = await NFTController.createNFT(nftName, NFTdescription, nftImageIpfsHash, nftPrice, walletAddress);
+      // console.log('Nft minted successfully')
+    }
+    res.status(200).json({Success: "NFT minted successfuly"});
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({Error: "Failed to mint NFT"});
+  }
+});
+
+router.get('/getNFTS', (req, res) => {
+  NFTController.getNFT(req, res);
+})
 router.get('/connect', (req, res) => {
   AuthController.verifyToken(req, res);
 });
