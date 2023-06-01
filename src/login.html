@@ -23,6 +23,9 @@
     <!-- Custom Css -->
     <link rel="stylesheet" href="css/style.min.css" type="text/css" />
 
+    <!-- Additional CSS-->
+    <link rel="stylesheet" href="css/snackbar.style.css"/>
+
 </head>
 
 <body>
@@ -33,7 +36,11 @@
         <i class="uil uil-moon bx-spin mode-light"></i>
     </a>
 
-
+    
+    <div id="snackbar" class="snackbar">
+        <span class="close" onclick="hideSnackBar()">&times;</span>
+        <p id="snackbarmessage"></p>
+    </div>    
     <!-- start section -->
     <section class="login section position-relative overflow-hidden"
         style="background-image: url(./images/inner-image/login.png); background-repeat: no-repeat;">
@@ -42,7 +49,7 @@
         <div class="container position-relative">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
-                    <form class="mt-2 inner-heading" action="/login" method="post">                           
+                    <form class="mt-2 inner-heading" action="/login" method="post" id="login-form">                           
                         <h1 class="fw-bold">Welcome 🖐 To Artlink</h1>
 
                         <p class="text-muted">Don't have an account yet? <a href="/register"
@@ -54,7 +61,7 @@
                                     <div class="email  mt-4">
                                         <label for="validationDefault03" class="form-label fw-semibold"> Email Address
                                             :</label>
-                                        <input type="email" name="email" class="form-control" id="validationDefault03"
+                                        <input type="email" name="email" class="form-control" id="email"
                                             placeholder="Enter Your Email" required>
                                     </div>
                                 </div>
@@ -63,7 +70,7 @@
                                     <div class="password  mt-4">
                                         <label for="validationDefault01" class="form-label fw-semibold">Password
                                             :</label>
-                                        <input type="password" name="password" class="form-control" id="validationDefault01"
+                                        <input type="password" name="password" class="form-control" id="password"
                                          value="" required>
                                     </div>
                                 </div>
@@ -71,7 +78,7 @@
                                 <!--TODO: Implement reset password functionality -->
                                 <div class="col-lg-12">
                                     <div class="d-flex align-items-center mt-4">
-                                        <a href="reset-password"><p>Forgot password?</p></a>
+                                        <a href="/reset-password"><p>Forgot password?</p></a>
                                     </div>
                                 </div>
 
@@ -106,13 +113,13 @@
                                             <i class="mdi mdi-check-circle text-success f-30"></i>
                                         </div>
                                         <div class="flex-grow-1 ms-2">
-                                            <strong>Your Account Is Verified</strong>
+                                            <strong>Login Unsuccessful</strong>
 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="toast-body">
-                                    Login to your account!
+                                    Incorrect password/email. Please try again
                                 </div>
                                 <div class="progress" style="height: 5px;">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
@@ -120,13 +127,82 @@
                                         style="width: 95%;"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>  
                     </form>
                 </div>
             </div>
 
 
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+        <script>
+            const form = document.querySelector('#login-form');
+            const snackbar = document.querySelector('#snackbar');
+
+            function showSnackBar(message) {
+                const snackBarMessage = document.querySelector('#snackbarmessage');
+
+                snackBarMessage.innerHTML = message;
+                snackbar.classList.add('show');
+
+                setTimeout(function(){ snackbar.className = snackbar.className.replace('show', '');}, 3000);
+            }
+
+            function hideSnackBar() {
+                snackbar.classList.remove('show');
+            }
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+            const email = form.querySelector('#email').value;
+            const password = form.querySelector('#password').value;
+            
+            try {
+
+                // axios.post('/login', {
+                //     email: email,
+                //     password: password
+                // })
+                // .then(function (response) {
+                //     if (response) {
+                //         window.location.href('/marketplace');
+                //     } else {
+                //         response.json().then(function(data) {
+                //             var errorMsg = data.Error;
+                //             showSnackBar(errorMsg);
+                //         })
+                //     }
+                // })
+                // .catch(function(error) {
+                //     console.error(`Error authenticating user ${error}`)
+                // });
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({email, password})
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        window.location.href = '/marketplace';
+                    } else {
+                        response.json().then(function(data) {
+                            var errorMessage = data.error;
+                            showSnackBar(errorMessage);
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.error(`Error authenticating user: ${error}`);
+                })
+                } catch (error) {
+                console.log(`Error: ${error}`);
+                }
+                });
+
+        </script>
         <!-- end container -->
     </section>
 

@@ -222,6 +222,26 @@
                 </div>
             </div>
 
+            <div id="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Your information has been updated!</p>
+                </div>
+            </div>
+
+            <script>
+                const modal = document.getElementById('modal');
+                const closebtn = document.querySelector('.close');
+
+                window.onload = () => {
+                    modal.style.display = 'block';
+                };
+
+                closebtn.onclick = () => {
+                    modal.style.display = 'none';
+                };
+            </script>
+
 
             <div class="row mt-5 align-items-center">
                 <div class="col-lg-6">

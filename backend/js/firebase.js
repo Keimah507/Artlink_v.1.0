@@ -3,6 +3,7 @@ const { initializeApp } = require("firebase/app");
 // import { getAnalytics } from "firebase/analytics";
 const { getFirestore } = require("firebase/firestore");
 // TODO: Add SDKs for Firebase products that you want to use
+const { getStorage, ref } = require("firebase/storage");
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -20,6 +21,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const application = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(application);
-const dbClient = getFirestore(application);
+export const dbClient = getFirestore(application);
+export const storage = getStorage(application);
+const storageRef = ref(storage);
 
-module.exports = dbClient;
+// module.exports = dbClient;

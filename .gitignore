@@ -543,3 +543,4 @@ node_modules/ganache/node_modules/util-deprecate/LICENSE
 node_modules/ganache/node_modules/util-deprecate/node.js
 node_modules/ganache/node_modules/util-deprecate/package.json
 node_modules
+.env
