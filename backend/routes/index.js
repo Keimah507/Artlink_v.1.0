@@ -11,9 +11,9 @@ import { dbClient } from "../js/firebase.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { get } from "http";
 import { async } from "@firebase/util";
-const axios = require("axios");
+import axios from "axios";
 const app = express();
-const multer = require('multer');
+import multer from 'multer';
 const upload = multer({ 
    storage: multer.memoryStorage(),
    limits: { fileSize: 1024 * 1024 * 5}, // Max-size 5MB

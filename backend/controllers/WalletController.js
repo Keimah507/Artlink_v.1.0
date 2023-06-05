@@ -1,7 +1,7 @@
 import { Web3Provider } from "@ethersproject/providers";
-import AuthController from "./AuthController";
-const ethers = require('ethers');
-const detectProvider = require('@metamask/detect-provider');
+import AuthController from "./AuthController.js";
+import ethers from 'ethers';
+import detectProvider from '@metamask/detect-provider';
 
 export default class WalletController {
   // Move to client-side

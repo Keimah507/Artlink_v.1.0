@@ -1,11 +1,12 @@
 import { Alchemy, Network } from 'alchemy-sdk';
-const Formdata = require('form-data');
-const axios = require('axios');
-const fs = require('fs');
-const { ethers } = require('ethers');
-const sdk = require('api')('@opensea/v2.0#9eqy6x159l3n6xcgf');
+import Formdata from 'form-data';
+import axios from 'axios';
+import fs from 'fs';
+import { ethers } from'ethers';
+import dotenv from 'dotenv';
+// import sdk from ('api')('@opensea/v2.0#9eqy6x159l3n6xcgf');
 
-require('dotenv').config();
+dotenv.config();
 const config = {
     apikey: process.env.ALCHEMY_API_KEY,
     network : Network.ETH_MAINNET

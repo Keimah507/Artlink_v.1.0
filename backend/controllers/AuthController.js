@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-const dbClient = require("../js/firebase");
+import {dbClient} from "../js/firebase.js";
 
 export default class AuthController {
 

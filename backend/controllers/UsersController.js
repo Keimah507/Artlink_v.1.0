@@ -1,16 +1,17 @@
 import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc, writeBatch, updateDoc } from "firebase/firestore";
 import { getAuth, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import bcrypt, { compare } from "bcryptjs";
+import bcrypt from "bcryptjs";
 import AuthController from "./AuthController.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { base64 } from "@firebase/util";
-const {v4:uuidv4} = require('uuid');
-const admin = require('firebase-admin');
-const jwt = require("jsonwebtoken");
-const axios = require("axios");
-const { Storage } = require('@google-cloud/storage');
+import {v4 as uuidv4} from 'uuid';
+import admin from 'firebase-admin';
+import jwt from "jsonwebtoken";
+import axios from "axios";
+import { Storage } from '@google-cloud/storage';
 const storage = new Storage();
-const { dbClient } = require('../js/firebase.js');
+import { dbClient } from '../js/firebase.js';
+import dotenv from 'dotenv';
 // const serviceAccount =  require('../nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
 
 // admin.initializeApp({
@@ -22,7 +23,7 @@ const bucketname = 'nft-marketplace-e6568.appspot.com';
 
 const auth = getAuth();
 
-require("dotenv").config();
+dotenv.config();
 
 export default class UsersController {
 

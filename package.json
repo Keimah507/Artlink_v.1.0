@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Nft Marketplace",
   "private": "true",
+  "engines": {
+    "node": ">=18.15.0"
+  },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=development",
