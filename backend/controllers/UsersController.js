@@ -1,6 +1,6 @@
 import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc, writeBatch, updateDoc } from "firebase/firestore";
 import { getAuth, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import bcrypt, { compare } from "bcrypt";
+import bcrypt, { compare } from "bcryptjs";
 import AuthController from "./AuthController.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { base64 } from "@firebase/util";
