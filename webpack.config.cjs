@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  target: 'node',
   // The entry point file described above
   entry: './server.js',
   // The location of the build folder described above

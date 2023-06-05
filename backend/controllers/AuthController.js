@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 const dbClient = require("../js/firebase");
 
-class AuthController {
+export default class AuthController {
 
     static async verifyToken(req, res, next) {
         //use req.header as opposed to req.headers(IDK why!)
@@ -31,4 +31,5 @@ class AuthController {
     }
 }
 
-module.exports = AuthController;
+// Use ES6 imports instead
+// module.exports = AuthController;

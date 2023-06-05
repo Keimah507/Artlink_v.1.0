@@ -1,6 +1,6 @@
 import express from "express";
 import UsersController from "../controllers/UsersController.js";
-import AppController from "../controllers/AppController.js";
+// import AppController from "../controllers/AppController.js";
 import AuthController from "../controllers/AuthController.js";
 import WalletController from "../controllers/WalletController.js"
 import NFTController from "../controllers/NFTController.js";
@@ -20,6 +20,7 @@ const upload = multer({
 });
 
 const router = express.Router();
+export default router;
 const __dirname = path.resolve();
 
   
@@ -124,9 +125,9 @@ router.get('/collection', AuthController.verifyToken, (req, res) => {
   res.sendFile(__dirname + "/src/collection.html");
 });
 
-router.get('/getstatus', (req, res) => {
-  AppController.getStatus(req, res);
-});
+// router.get('/getstatus', (req, res) => {
+//   AppController.getStatus(req, res);
+// });
 
 router.post('/register', upload.single('profileImg'), (req, res) => {
   UsersController.postNew(req, res);
@@ -223,4 +224,5 @@ UsersController.getUser(req, res);
 //   res.redirect('/profile')
 // })
 
-module.exports = router;
+
+// module.exports = router;
