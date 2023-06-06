@@ -35,7 +35,6 @@
     "nodemon": "^2.0.21",
     "react": "^18.2.0",
     "serve-index": "^1.9.1",
-    "sha1": "^1.1.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
