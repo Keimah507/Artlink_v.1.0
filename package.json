@@ -38,7 +38,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@alch/alchemy-web3": "^1.4.7",
+    "@alch/alchemy-web3": "^0.1.18",
     "@babel/cli": "^7.8.0",
     "@babel/core": "^7.8.0",
     "@babel/node": "^7.8.0",
@@ -47,7 +47,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@google-cloud/storage": "^6.9.5",
     "@metamask/detect-provider": "^2.0.0",
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@pinata/sdk": "^2.1.0",
     "alchemy-sdk": "^2.7.0",
     "api": "^5.0.8",
