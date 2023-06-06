@@ -4,7 +4,7 @@
   "description": "Nft Marketplace",
   "private": "true",
   "engines": {
-    "node": ">=18.15.0"
+    "node": "18.15.0"
   },
   "type": "module",
   "scripts": {
@@ -23,6 +23,7 @@
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
@@ -51,7 +52,6 @@
     "@pinata/sdk": "^2.1.0",
     "alchemy-sdk": "^2.7.0",
     "api": "^5.0.8",
-    "cookie-parser": "^1.4.6",
     "ethers": "^5.7.2",
     "hardhat": "^2.13.0",
     "ipfs-http-client": "^60.0.0",
