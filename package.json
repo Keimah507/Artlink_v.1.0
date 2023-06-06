@@ -35,7 +35,17 @@
     "nodemon": "^2.0.21",
     "react": "^18.2.0",
     "serve-index": "^1.9.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "alchemy-sdk": "^2.7.0",
+    "api": "^5.0.8",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.13.0",
+    "ipfs-http-client": "^60.0.0",
+    "multer": "^1.4.5-lts.1",
+    "pug": "^3.0.2",
+    "react-dom": "^18.2.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
   },
   "devDependencies": {
     "@alch/alchemy-web3": "^0.1.18",
@@ -48,16 +58,6 @@
     "@google-cloud/storage": "^6.9.5",
     "@metamask/detect-provider": "^2.0.0",
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
-    "@pinata/sdk": "^2.1.0",
-    "alchemy-sdk": "^2.7.0",
-    "api": "^5.0.8",
-    "ethers": "^5.7.2",
-    "hardhat": "^2.13.0",
-    "ipfs-http-client": "^60.0.0",
-    "multer": "^1.4.5-lts.1",
-    "pug": "^3.0.2",
-    "react-dom": "^18.2.0",
-    "webpack": "^5.38.1",
-    "webpack-cli": "^4.7.2"
+    "@pinata/sdk": "^2.1.0"
   }
 }
