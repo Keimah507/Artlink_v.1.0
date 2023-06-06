@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  notes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /src/app
+    ports:
+      - 49160:5000
+    env_file:
+      - .env
+    volumes:
+    - ./:/app
+    - /node_modules
+    command: npm run dev
