@@ -4,7 +4,7 @@ import axios from 'axios';
 import fs from 'fs';
 import { ethers } from'ethers';
 import dotenv from 'dotenv';
-// import sdk from ('api')('@opensea/v2.0#9eqy6x159l3n6xcgf');
+const sdk = require('api')('@opensea/v2.0#1uc90f21lhkygl48');
 
 dotenv.config();
 const config = {
@@ -46,31 +46,38 @@ export default class NFTController{
             const response = await contract.mintNFT(nftname, NFTdescription, nftImageIpfsHash, nftPrice, walletAddress);
             return response.hash;
     }
-    //ALCHEMY SDK getNFTsFromCollection function
+    //OpenSea SDK getNFTs function
 
     static async getNFT(req, res){
-        const address = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D";
-        const omitMetadata = false;
+        sdk.auth(process.env.OPENSEA_API_KEY);
+        sdk.retrieveListings({limit: '200', order_by: 'created_date', order_direction: 'desc', chain:'ethereum'})
+        .then(({ data }) => res.status(200).json({nfts: data}))
+        .catch(err => res.status(500).json({error: `Cannot fetch NFTS: ${err.message}`}))
+        // const address = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D";
+        // const omitMetadata = false;
 
-        try {
-        const { nfts } = await alchemy.nft.getNftsForContract(address, {
-            omitMetadata: omitMetadata,
-        });
-        const imageUrls = [];
-        let i = 1;
-        for (let nft of nfts){
-            imageUrls.push(nft.rawMetadata.image);
-        }
-        res.render('collection', { imageUrls: imageUrls });
-        // res.status(200).json({imageUrls})
-    } catch(err){
-        res.status(400).json({Error: `Internal Server Error ${err}`})
-    }
+    //     try {
+    //     const { nfts } = await alchemy.nft.getNftsForContract(address, {
+    //         omitMetadata: omitMetadata,
+    //     });
+    //     const imageUrls = [];
+    //     let i = 1;
+    //     for (let nft of nfts){
+    //         imageUrls.push(nft.rawMetadata.image);
+    //     }
+    //     res.render('collection', { imageUrls: imageUrls });
+    // } catch(err){
+    //     res.status(400).json({Error: `Internal Server Error ${err}`})
+    // }
 
     };
-    // static async getNFT(req, res){
-    //     sdk.retrieveListingsTestnets({limit: '1'})
-    //     .then(({ data }) => res.status(200).json({data: data}))
-    //     .catch(err => console.error(err));
-    // }
+
+    //Fetches NFTs By maker, who is defined in query param
+    static async getNFTsByMaker(req, res){
+        const maker = req.query.maker;
+        sdk.auth(process.env.OPENSEA_API_KEY)
+        sdk.retrieveListings({limit: '100', maker: maker, order_by: 'created_date', order: 'desc', chain: 'ethereum'})
+        .then(({ data }) => res.status(200).json({data: data}))
+        .catch(err => console.error(err));
+    }
 }
