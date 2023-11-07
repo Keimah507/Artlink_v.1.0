@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
 import router from './backend/routes/index.js';

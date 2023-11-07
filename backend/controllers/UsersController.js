@@ -2,21 +2,21 @@ import { query, collection, getDocs, setDoc, where, addDoc, doc, getDoc, writeBa
 import { getAuth, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import bcrypt from "bcryptjs";
 import AuthController from "./AuthController.js";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { base64 } from "@firebase/util";
-import {v4 as uuidv4} from 'uuid';
 import admin from 'firebase-admin';
 import jwt from "jsonwebtoken";
-import axios from "axios";
 import { Storage } from '@google-cloud/storage';
-const storage = new Storage();
+const storage = new Storage({
+    projectID: 'nft-marketplace-e6568',
+    keyFilename: './nft-marketplace-e6568-firebase-adminsdk-29b23-80e6ec2c2e.json',
+});
 import { dbClient } from '../js/firebase.js';
 import dotenv from 'dotenv';
-// const serviceAccount =  require('../nft-marketplace-e6568-firebase-adminsdk-29b23-c07f2a02a5.json');
+const serviceAccount =  require('../../nft-marketplace-e6568-firebase-adminsdk-29b23-80e6ec2c2e.json');
 
-// admin.initializeApp({
-//    credential: admin.credential.cert(serviceAccount),
-// })
+admin.initializeApp({
+   credential: admin.credential.cert(serviceAccount),
+    storageBucket: "nft-marketplace-e6568.appspot.com",
+})
 // TODOS: use GCP storage (buckets) instead of firebase to add/render image files
 
 const bucketname = 'nft-marketplace-e6568.appspot.com';
@@ -25,7 +25,7 @@ const auth = getAuth();
 
 dotenv.config();
 
-export default class UsersController {
+module.exports = class UsersController {
 
     static async postNew(req, res) {
 
@@ -45,6 +45,7 @@ export default class UsersController {
          }
 
          const file = req.file;
+         let profileImgUrl = '';
          if(file){
             try {
                const bucket = storage.bucket(bucketname);
@@ -59,26 +60,32 @@ export default class UsersController {
                });
 
                blobStream.on('error', (err) => {
-                  res.json(500).json({Error: `Cannot upload file ${err}`});
+                  console.log(err);
                });
 
                blobStream.on('finish', async() => {
                   await blob.makePublic();
 
-                  const profileImgUrl = `https://storage.googleapis.com/${bucketname}/${file.originalname}`;
+                  profileImgUrl = `https://storage.googleapis.com/${bucketname}/${file.originalname}`;
 
-                  const saltRounds = 10;
-                  const hashedPw = await bcrypt.hash(password, saltRounds);
-                  const user = {
-                     username: username,
-                     email: email,
-                     password: hashedPw,
-                     Bio: bio,
-                     profileImg: profileImgUrl
-                  };
-                  
-                  const userDetails = doc(dbClient, 'users', email);
-                  await setDoc(userDetails, user);
+                  // const saltRounds = 10;
+                  // const hashedPw = await bcrypt.hash(password, saltRounds);
+                  // const user = {
+                  //    username: username,
+                  //    email: email,
+                  //    password: hashedPw,
+                  //    Bio: bio,
+                  //    profileImg: profileImgUrl
+                  // };
+                  //
+                  // const userDetails = doc(dbClient, 'users', email);
+                  // try {
+                  //     await setDoc(userDetails, user);
+                  //     console.log("User added to db");
+                  //     // Handle exception with user-friendly message
+                  // } catch (err) {
+                  //       res.status(500).json({Error: `Could not add user to db ${err}`});
+                  // }
 
                   console.log(`File uploaded to ${profileImgUrl}`);
                });
@@ -86,9 +93,28 @@ export default class UsersController {
                blobStream.end(file.buffer);
             } catch(err) {
                console.error(err);
-               return res.status(500).json({"Error": `Internal Server Error ${err}`});
             }
          }
+
+        const saltRounds = 10;
+        const hashedPw = await bcrypt.hash(password, saltRounds);
+        const user = {
+            username: username,
+            email: email,
+            password: hashedPw,
+            Bio: bio,
+            profileImg: `https://storage.googleapis.com/${bucketname}/${file.originalname}`,
+        };
+
+
+        const userDetails = doc(dbClient, 'users', email);
+        try {
+            await setDoc(userDetails, user);
+            // Handle exception with user-friendly message
+        } catch (err) {
+              res.status(500).json({Error: `Could not add user to db ${err}`});
+        }
+
 
    const token = jwt.sign(
       { email: email }, process.env.JWT_SECRET_KEY,
@@ -105,14 +131,13 @@ export default class UsersController {
    })
    .catch((err) => {
       const errorCode = err.code;
-      const errorMessage = err.mesage;
-      res.status(500).json({Error: `Internal Server Error ${errorMessage}`});
+      const errorMessage = err.message;
+      console.log(`${errorCode}, ${errorMessage}`);
    })
-   res.redirect('/marketplace');
+   res.status(200).json({success: "User created successfully"});
 }
 
 
-   //TODO: add login method(With auth)
    //TODO: fix bug that requires user to log in twice to view profile
    static async login(req, res) {
    const { email, password } = req.body;
@@ -149,7 +174,7 @@ export default class UsersController {
    })
    .catch((err) => {
       const ErrorCode = err.code;
-      const errorMessage = err.mesage;
+      const errorMessage = err.message;
    });
 
 
@@ -159,15 +184,11 @@ export default class UsersController {
 
     //TODO: add getUser method(With auth)
     static async getUser(req, res) {
+      const email = req.params;
 
-
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (user != null) {
       try {
          const usersCollection = collection(dbClient, 'users');
-         // console.log(user.email);
-         const usersQuery = query(usersCollection, where("email", "==", user.email));
+         const usersQuery = query(usersCollection, where("email", "==", email.id));
          const querySnapshot = await getDocs(usersQuery);
          if (querySnapshot.size === 0){
             return res.status(400).json({error: "User not found"});
@@ -175,13 +196,11 @@ export default class UsersController {
          const userData = querySnapshot.docs[0].data();
          const { username, email:userEmail, Bio, profileImg: profileImg, walletAddress: walletAddress} = userData;
 
-         res.render('profile', {username, userEmail, Bio, profileImg, walletAddress});
+         // res.render('profile', {username, userEmail, Bio, profileImg, walletAddress});
+         res.status(200).json({user: userData});
       } catch (err) {
          res.status(500).json({error: `Internal server Error: ${err}`});
       }
-   } else {
-      res.redirect('/login')
-   }
 
 
     }
@@ -193,8 +212,8 @@ export default class UsersController {
          querySnapshot.forEach((doc) => {
             users.push(doc.data());
          });
-         // res.status(200).json({users: docs})
-         res.render('creators', {users: users});
+         res.status(200).json({users: users})
+         // res.render('creators', {users: users});
       } catch (err) {
          res.status(500).json({error: `Internal server Error: ${err}`});
       }
@@ -205,7 +224,7 @@ export default class UsersController {
       const header = req.headers.cookie;
 
       if( !header || typeof header == undefined) {
-          res.redirect('/login');
+          res.status(401).json({Error: "Unauthorized"});
       }
       const token = header.split('=')[1];
       
@@ -225,7 +244,7 @@ export default class UsersController {
       const tokenId = jwt.decode(token, process.env.JWT_SECRET_KEY);
       const userId = tokenId.email;
       if(userId == null) {
-         res.redirect('/login')
+         res.status(401).json({Error: "Unauthorized"});
       }
 
       const file = req.file;
@@ -271,7 +290,7 @@ export default class UsersController {
       try {
       const userDetails = doc(dbClient, 'users', userId);
       await updateDoc(userDetails, userData);
-      res.redirect('/users/me');
+      res.status(200).json({Success: "User details updated successfully"});
       } catch(err) {
          res.status(500).json({Error: `Internal Server Error: Cannot update details ${err}`});
       }
@@ -281,7 +300,7 @@ export default class UsersController {
     static logOut(req, res) {
       res.clearCookie('token');
       signOut(auth).then(() => {
-         res.redirect('/login');
+         res.status(200).json({Success: "Logged out successfully"});
       })
       .catch((err) => {
          res.status(500).json({Error: `An error occured, ${err}`})
