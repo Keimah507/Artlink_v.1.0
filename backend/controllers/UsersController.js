@@ -11,7 +11,7 @@ const storage = new Storage({
 });
 import { dbClient } from '../js/firebase.js';
 import dotenv from 'dotenv';
-const serviceAccount =  require('../../nft-marketplace-e6568-firebase-adminsdk-29b23-80e6ec2c2e.json');
+import serviceAccount from '../../nft-marketplace-e6568-firebase-adminsdk-29b23-80e6ec2c2e.json' assert {type: 'json'};
 
 admin.initializeApp({
    credential: admin.credential.cert(serviceAccount),
@@ -25,7 +25,7 @@ const auth = getAuth();
 
 dotenv.config();
 
-module.exports = class UsersController {
+export default class UsersController {
 
     static async postNew(req, res) {
 

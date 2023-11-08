@@ -1,17 +1,17 @@
-const express = require("express");
-const UsersController = require("../controllers/UsersController.js");
-const AuthController  = require("../controllers/AuthController.js");
-const WalletController = require("../controllers/WalletController.js")
-const NFTController = require("../controllers/NFTController.js");
-const jwt = require('jsonwebtoken');
-const path = require("path");
-const {getAuth, onAuthStateChanged} = require("firebase/auth");
-const { dbClient } = require("../js/firebase.js");
-const { doc, getDoc, updateDoc } = require("firebase/firestore");
+import express from "express";
+import UsersController from "../controllers/UsersController.js";
+import AuthController  from "../controllers/AuthController.js";
+import WalletController from "../controllers/WalletController.js";
+import NFTController from "../controllers/NFTController.js";
+import jwt from 'jsonwebtoken';
+import path from "path";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { dbClient } from "../js/firebase.js";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 const app = express();
-const multer = require('multer');
-const FileController = require("../controllers/FileController.js");
-const fs = require('fs');
+import multer from 'multer';
+import FileController from "../controllers/FileController.js";
+import fs from 'fs';
 const upload = multer({
    storage: multer.memoryStorage(),
    limits: { fileSize: 1024 * 1024 * 5}, // Max-size 5MB

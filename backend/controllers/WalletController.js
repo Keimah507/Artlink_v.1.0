@@ -3,7 +3,7 @@ import AuthController from "./AuthController.js";
 import ethers from 'ethers';
 import detectProvider from '@metamask/detect-provider';
 
-module.exports = class WalletController {
+export default class WalletController {
   // Move to client-side
     static async connectWallet(req, res) {
       

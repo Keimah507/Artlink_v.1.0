@@ -1,6 +1,6 @@
-import { AlchemyWeb3 } from "@alch/alchemy-web3";
-const AlchemyWeb3 = new AlchemyWeb3("fPMyl04y1VfYk_Gglf8LV4Y1EGZW8S0m");
-const contractAddress = "0xCB9058e0d9753bc10BF2fb75df3C70218Ff058D8";
+// import { AlchemyWeb3 } from "@alch/alchemy-web3";
+// const AlchemyWeb3 = new AlchemyWeb3("fPMyl04y1VfYk_Gglf8LV4Y1EGZW8S0m");
+// const contractAddress = "0xCB9058e0d9753bc10BF2fb75df3C70218Ff058D8";
 
 async function getNFTSFromCollection() {
     const contractInstance = new AlchemyWeb3.eth.contract(process.env.CONTRACT_ABI, contractAddress);

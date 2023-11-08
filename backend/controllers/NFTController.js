@@ -5,8 +5,8 @@ import fs from 'fs';
 import { ethers } from'ethers';
 import dotenv from 'dotenv';
 import {collection, doc, getDocs, setDoc} from "firebase/firestore";
-import {dbClient} from "../js/firebase";
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
+import {dbClient} from "../js/firebase.js";
+import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 
 dotenv.config();

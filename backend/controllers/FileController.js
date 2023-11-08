@@ -1,10 +1,10 @@
 // Remember to uncomment the code in the index.js file
 
 //legacy code - Change createWriteStream function to storage.bucket.upload() function
-const { Storage } = require('@google-cloud/storage');
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
+import { Storage } from '@google-cloud/storage';
+import multer from 'multer';
+import fs  from 'fs';
+import path from 'path';
 
 const storage  = new Storage({
     projectId: 'nft-marketplace-e6568',
@@ -17,7 +17,7 @@ const upload = multer({
     limits: { fileSize: 1024 * 1024 * 5}, // Max-size 5MB
 });
 
-class FileController{
+export default class FileController{
     static uploadFile(file){
         // upload a file to GCS from the client
             const folderName = 'nftImages';
@@ -50,5 +50,3 @@ class FileController{
             return {url: filePath};
     }
 }
-
-module.exports = FileController ;
